@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="限界開発 Episode 001 完全記録。スマホ1台とAIで、未対応案件抽出・報告文作成ツールを公開開発した全工程をまとめた配布資料です。">
+  <title>限界開発 Episode 001 完全記録</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink:#17202a;
+      --sub:#52606d;
+      --brand:#174ea6;
+      --line:#d7dee7;
+      --soft:#f3f6f9;
+      --gold:#8a6d00;
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#edf2f7; color:var(--ink); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.75; }
+    main { width:min(100%,820px); margin:auto; padding:24px 14px 56px; }
+    .hero, .panel { background:#fff; border:1px solid var(--line); border-radius:18px; box-shadow:0 4px 18px rgba(23,32,42,.08); }
+    .hero { padding:28px 22px; border-top:8px solid var(--brand); }
+    .eyebrow { margin:0 0 4px; color:var(--brand); font-weight:800; letter-spacing:.06em; }
+    h1 { margin:.15em 0 .4em; font-size:clamp(2rem,8vw,3.4rem); line-height:1.16; }
+    h2 { margin:0 0 .6em; font-size:1.4rem; }
+    p { margin:.6em 0; }
+    .lead { font-size:1.08rem; }
+    .meta { color:var(--sub); }
+    .actions { display:grid; gap:12px; margin:22px 0 6px; }
+    .button { display:block; min-height:52px; padding:12px 18px; border:2px solid var(--brand); border-radius:12px; background:var(--brand); color:#fff; font-weight:800; text-align:center; text-decoration:none; }
+    .button.secondary { background:#fff; color:var(--brand); }
+    .panel { margin-top:16px; padding:20px; }
+    .grid { display:grid; gap:12px; }
+    .card { padding:14px; border-radius:12px; background:var(--soft); }
+    .card strong { display:block; font-size:1.08rem; }
+    .notice { border-left:6px solid var(--gold); background:#fffbea; }
+    ul { padding-left:1.4em; }
+    footer { margin-top:22px; color:var(--sub); font-size:.92rem; text-align:center; }
+    @media (min-width:640px) {
+      main { padding-top:44px; }
+      .actions { grid-template-columns:1fr 1fr; }
+      .grid { grid-template-columns:1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <p class="eyebrow">RS AI / 限界開発</p>
+    <h1>Episode 001<br>完全記録</h1>
+    <p class="lead">スマホ1台とAIで「未対応案件抽出・報告文作成ツール」を公開開発した、企画・安全設計・仕様化・実装・自動テスト・iPhone実機確認・GitHub運用までの全工程を一冊にまとめました。</p>
+    <p class="meta">全26ページ / 2026年7月31日 / 山内 延天</p>
+    <div class="actions">
+      <a class="button" href="limit-development-episode001-complete-record.pdf">PDFを読む・保存する</a>
+      <a class="button secondary" href="../../episodes/2026-07-31-unhandled-case-report/">完成した試作品を開く</a>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>この資料で分かること</h2>
+    <div class="grid">
+      <div class="card"><strong>公開開発の組み立て方</strong>相談を安全に切り分け、最小成功条件へ落とす方法。</div>
+      <div class="card"><strong>スマホ中心のAI開発</strong>GitHub・Codex・Safariを使って試作品を完成させる流れ。</div>
+      <div class="card"><strong>作った機能</strong>CSV読込、未対応抽出、期限分類、担当者集計、報告文生成。</div>
+      <div class="card"><strong>検証と人間承認</strong>自動テスト、iPhone実機テスト、PRレビュー、マージまでの記録。</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>完成した試作品</h2>
+    <ul>
+      <li>サンプルデータまたはCSVを読み込む</li>
+      <li>「未対応」の案件だけを抽出する</li>
+      <li>期限超過・本日期限・期限内へ分類する</li>
+      <li>担当者別の件数を集計する</li>
+      <li>上司向け報告文を生成・編集・コピーする</li>
+      <li>外部API・外部送信・永続保存を使用しない</li>
+    </ul>
+  </section>
+
+  <section class="panel notice">
+    <h2>利用上の注意</h2>
+    <p>本資料と試作品は公開デモ用です。実在する会社名、顧客情報、個人情報、社外秘情報を入力しないでください。</p>
+    <p><strong>サンプルとして設定した条件では動作を確認できました。本番データや実際の業務環境での利用は未確認です。</strong></p>
+  </section>
+
+  <section class="panel">
+    <h2>関連リンク</h2>
+    <p><a href="../../">限界開発リポジトリ</a></p>
+    <p><a href="../../episodes/2026-07-31-unhandled-case-report/TEST_REPORT.md">自動テスト・iPhone実機テスト記録</a></p>
+    <p><a href="../../SAFETY.md">公開配信・試作品開発の安全基準</a></p>
+  </section>
+
+  <footer>RS AI / 山内 延天</footer>
+</main>
+</body>
+</html>
