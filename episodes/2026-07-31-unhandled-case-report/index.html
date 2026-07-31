@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>未対応案件抽出・報告文作成ツール</title>
+  <style>
+    :root { color-scheme: light; --ink:#17202a; --sub:#52606d; --line:#cbd5df; --brand:#174ea6; --soft:#f3f6f9; --danger:#a61b1b; --warn:#765800; --ok:#176b3a; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#eef2f6; color:var(--ink); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; font-size:16px; line-height:1.6; overflow-wrap:anywhere; }
+    main { width:min(100%,760px); margin:auto; padding:16px 12px 48px; }
+    h1 { margin:0 0 12px; font-size:clamp(1.45rem,7vw,2rem); line-height:1.35; }
+    h2 { margin:0 0 12px; font-size:1.2rem; }
+    h3 { margin:0; font-size:1.05rem; }
+    .panel { margin:12px 0; padding:16px; border:1px solid var(--line); border-radius:12px; background:#fff; box-shadow:0 2px 8px #1b273314; }
+    .notice { border-left:6px solid var(--warn); background:#fffbea; }
+    label { display:block; margin-top:12px; font-weight:700; }
+    input,button,textarea { width:100%; min-width:0; font:inherit; }
+    input,textarea { margin-top:6px; padding:10px; border:1px solid #82909d; border-radius:7px; background:#fff; color:var(--ink); }
+    input { min-height:44px; }
+    textarea { min-height:300px; resize:vertical; }
+    button { min-height:46px; padding:10px 12px; border:2px solid var(--brand); border-radius:8px; background:var(--brand); color:#fff; font-weight:700; cursor:pointer; }
+    button.secondary { background:#fff; color:var(--brand); }
+    button.reset { border-color:#5d6975; background:#fff; color:#36414b; }
+    button:focus-visible,input:focus-visible,textarea:focus-visible { outline:3px solid #ffbf47; outline-offset:2px; }
+    .actions { display:grid; gap:10px; margin-top:14px; }
+    .current { margin:12px 0 0; padding:10px; border-radius:7px; background:var(--soft); }
+    #status:empty { display:none; }
+    #status { border-left:5px solid var(--brand); }
+    #status.error { border-left-color:var(--danger); color:#7f1717; background:#fff2f2; }
+    #status.success { border-left-color:var(--ok); color:#10572f; background:#effaf3; }
+    #status.warning { border-left-color:var(--warn); color:#5f4800; background:#fffbea; }
+    .summary { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin:0; }
+    .summary div { padding:10px; border-radius:8px; background:var(--soft); }
+    .summary dt { color:var(--sub); font-size:.86rem; }
+    .summary dd { margin:0; font-size:1.35rem; font-weight:800; }
+    .cards { display:grid; gap:10px; }
+    .card { padding:12px; border:1px solid var(--line); border-radius:9px; background:#fff; }
+    .card p { margin:4px 0 0; }
+    .badge { display:inline-block; margin-top:8px; padding:2px 8px; border:1px solid currentColor; border-radius:999px; font-weight:700; }
+    .overdue { color:#961b1b; background:#fff0f0; }
+    .today { color:#6b5000; background:#fff7d6; }
+    .future { color:#176b3a; background:#effaf3; }
+    .empty { color:var(--sub); }
+    ul { padding-left:1.4em; }
+    [hidden] { display:none !important; }
+    @media (min-width:560px) { .actions { grid-template-columns:repeat(2,minmax(0,1fr)); } .summary { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>未対応案件抽出・報告文作成ツール</h1>
+  <section class="panel notice" aria-labelledby="safety-title">
+    <h2 id="safety-title">安全上の注意</h2>
+    <p>公開デモ用の試作品です。実在する会社名、顧客名、個人情報、社外秘情報は入力しないでください。データはブラウザ内だけで処理され、外部には送信されません。画面を再読み込みすると、読み込んだデータは消去されます。</p>
+  </section>
+
+  <section class="panel" aria-labelledby="input-title">
+    <h2 id="input-title">1. データを用意する</h2>
+    <label for="csvFile">CSVファイルを選択</label>
+    <input id="csvFile" type="file" accept=".csv,text/csv">
+    <button id="sampleButton" class="secondary" type="button">サンプルデータを読み込む</button>
+    <p id="currentData" class="current">使用中データ：なし</p>
+    <label for="baseDate">基準日</label>
+    <input id="baseDate" type="date">
+    <div class="actions">
+      <button id="aggregateButton" type="button">集計する</button>
+      <button id="resetButton" class="reset" type="button">リセット</button>
+    </div>
+  </section>
+
+  <div id="status" class="panel" role="status" aria-live="polite"></div>
+
+  <div id="results" hidden>
+    <section class="panel" aria-labelledby="summary-title">
+      <h2 id="summary-title">2. 集計概要</h2>
+      <dl id="summary" class="summary"></dl>
+    </section>
+    <section class="panel" aria-labelledby="cases-title">
+      <h2 id="cases-title">3. 未対応案件一覧</h2>
+      <div id="cases" class="cards"></div>
+    </section>
+    <section class="panel" aria-labelledby="excluded-title">
+      <h2 id="excluded-title">4. 除外された行</h2>
+      <div id="excluded"></div>
+    </section>
+    <section class="panel" aria-labelledby="owners-title">
+      <h2 id="owners-title">5. 担当者別未対応件数</h2>
+      <div id="owners"></div>
+    </section>
+    <section class="panel" aria-labelledby="report-title">
+      <h2 id="report-title">6. 上司向け報告文</h2>
+      <label for="report">内容を確認し、必要に応じて編集してください</label>
+      <textarea id="report"></textarea>
+      <div class="actions">
+        <button id="copyButton" type="button">報告文をコピー</button>
+        <button id="regenerateButton" class="secondary" type="button">報告文を再生成</button>
+      </div>
+    </section>
+  </div>
+</main>
+<script>
+(() => {
+  'use strict';
+  const SAMPLE = `案件名,担当者,対応状況,期限,備考
+月次報告書の確認,佐藤,未対応,2026-07-29,数字の確認が必要
+備品購入申請,鈴木,対応中,2026-08-02,承認待ち
+研修資料の作成,高橋,未対応,2026-08-05,構成案まで作成済み
+会議日程の調整,佐藤,対応済,2026-07-28,対応完了
+契約書類の整理,田中,未対応,2026-07-31,ファイル名の統一が必要
+顧客アンケート集計,鈴木,未対応,2026-08-10,回答50件
+定例会議の議事録,高橋,対応済,2026-07-30,共有済み
+未提出書類の確認,田中,未対応,2026-07-27,提出状況の確認が必要`;
+  const REQUIRED = ['案件名','担当者','対応状況','期限'];
+  const $ = id => document.getElementById(id);
+  let inputText = '';
+  let lastResult = null;
+
+  function localToday() {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  }
+  function setStatus(message, kind='') {
+    $('status').textContent = message;
+    $('status').className = `panel ${kind}`.trim();
+  }
+  function parseCSV(text) {
+    const source = text.replace(/^\uFEFF/, '');
+    const rows=[]; let row=[]; let field=''; let quoted=false;
+    for (let i=0;i<source.length;i++) {
+      const char=source[i];
+      if (quoted) {
+        if (char==='"' && source[i+1]==='"') { field+='"'; i++; }
+        else if (char==='"') quoted=false;
+        else field+=char;
+      } else if (char==='"' && field==='') quoted=true;
+      else if (char===',') { row.push(field); field=''; }
+      else if (char==='\n' || char==='\r') {
+        if (char==='\r' && source[i+1]==='\n') i++;
+        row.push(field); field='';
+        if (row.some(value=>value.trim()!=='')) rows.push(row);
+        row=[];
+      } else field+=char;
+    }
+    if (quoted) throw new Error('unclosed quote');
+    row.push(field);
+    if (row.some(value=>value.trim()!=='')) rows.push(row);
+    return rows;
+  }
+  function validDate(value) {
+    const match=/^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+    if (!match) return false;
+    const year=Number(match[1]), month=Number(match[2]), day=Number(match[3]);
+    const date=new Date(Date.UTC(year,month-1,day));
+    return date.getUTCFullYear()===year && date.getUTCMonth()===month-1 && date.getUTCDate()===day;
+  }
+  function analyze(text, baseDate) {
+    const rows=parseCSV(text);
+    if (!rows.length) return {error:'データ行がありません。'};
+    const headers=rows[0].map(value=>value.trim());
+    const missing=REQUIRED.filter(name=>!headers.includes(name));
+    if (missing.length) return {error:`必須列が不足しています。不足列：${missing.join('、')}`};
+    const dataRows=rows.slice(1);
+    if (!dataRows.length) return {error:'データ行がありません。'};
+    const index=Object.fromEntries(headers.map((name,i)=>[name,i]));
+    const records=dataRows.map((values,position)=>({
+      name:(values[index['案件名']]||'').trim(), owner:(values[index['担当者']]||'').trim(),
+      status:(values[index['対応状況']]||'').trim(), due:(values[index['期限']]||'').trim(),
+      note:index['備考']===undefined?'':(values[index['備考']]||'').trim(), rowNumber:position+2, order:position
+    }));
+    const excluded=[]; const normal=[];
+    records.forEach(record => {
+      if (!validDate(record.due)) excluded.push({rowNumber:record.rowNumber,name:record.name||'案件名なし',reason:'期限が正しいYYYY-MM-DD形式の実在する日付ではありません。'});
+      else normal.push(record);
+    });
+    const cases=normal.filter(record=>record.status==='未対応').map(record=>({...record,dueState:record.due<baseDate?'期限超過':record.due===baseDate?'本日期限':'期限内'}));
+    cases.sort((a,b)=>a.due.localeCompare(b.due)||a.order-b.order);
+    const ownerMap=new Map();
+    cases.forEach(record=>ownerMap.set(record.owner||'担当者未設定',(ownerMap.get(record.owner||'担当者未設定')||0)+1));
+    const owners=[...ownerMap].map(([name,count])=>({name,count})).sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name,'ja'));
+    return {total:records.length,normal:normal.length,excluded,cases,owners,baseDate};
+  }
+  const escapeHTML = value => String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+  function formatJapaneseDate(value) { const [y,m,d]=value.split('-').map(Number); return `${y}年${m}月${d}日`; }
+  function reportSection(title, records) {
+    return `【${title}】\n${records.length?records.map(record=>`・${record.name}（担当：${record.owner||'担当者未設定'}、期限：${formatJapaneseDate(record.due)}）`).join('\n'):'該当なし'}`;
+  }
+  function generateReport(result) {
+    const groups=state=>result.cases.filter(record=>record.dueState===state);
+    return `未対応案件の状況をご報告します。\n\n基準日：${formatJapaneseDate(result.baseDate)}\n未対応案件：${result.cases.length}件\n期限超過：${groups('期限超過').length}件\n本日期限：${groups('本日期限').length}件\n期限内：${groups('期限内').length}件\n\n${reportSection('期限超過',groups('期限超過'))}\n\n${reportSection('本日期限',groups('本日期限'))}\n\n${reportSection('今後期限',groups('期限内'))}\n\n【担当者別未対応件数】\n${result.owners.length?result.owners.map(owner=>`・${owner.name}：${owner.count}件`).join('\n'):'該当なし'}\n\n以上、ご確認をお願いいたします。`;
+  }
+  function render(result) {
+    const count=state=>result.cases.filter(record=>record.dueState===state).length;
+    const items=[['全データ',result.total],['正常処理',result.normal],['除外',result.excluded.length],['未対応',result.cases.length],['期限超過',count('期限超過')],['本日期限',count('本日期限')],['期限内',count('期限内')]];
+    $('summary').innerHTML=items.map(([label,value])=>`<div><dt>${label}</dt><dd>${value}件</dd></div>`).join('');
+    $('cases').innerHTML=result.cases.length?result.cases.map(record=>`<article class="card"><h3>${escapeHTML(record.name||'案件名なし')}</h3><p>担当：${escapeHTML(record.owner||'担当者未設定')}</p><p>期限：${escapeHTML(record.due)}</p>${record.note?`<p>備考：${escapeHTML(record.note)}</p>`:''}<span class="badge ${record.dueState==='期限超過'?'overdue':record.dueState==='本日期限'?'today':'future'}">${record.dueState}</span></article>`).join(''):'<p class="empty">未対応案件はありません。</p>';
+    $('excluded').innerHTML=result.excluded.length?`<ul>${result.excluded.map(item=>`<li>${item.rowNumber}行目「${escapeHTML(item.name)}」：${escapeHTML(item.reason)}</li>`).join('')}</ul>`:'<p class="empty">除外された行はありません。</p>';
+    $('owners').innerHTML=result.owners.length?`<ul>${result.owners.map(owner=>`<li>${escapeHTML(owner.name)}：${owner.count}件</li>`).join('')}</ul>`:'<p class="empty">未対応案件はありません。</p>';
+    $('report').value=generateReport(result); $('results').hidden=false;
+  }
+  function aggregate() {
+    if (!inputText) { setStatus('CSVファイルを選択するか、サンプルデータを読み込んでください。','error'); return; }
+    const baseDate=$('baseDate').value;
+    if (!validDate(baseDate)) { setStatus('基準日を正しい日付で入力してください。','error'); return; }
+    try {
+      const result=analyze(inputText,baseDate);
+      if (result.error) { $('results').hidden=true; lastResult=null; setStatus(result.error,'error'); return; }
+      lastResult=result; render(result);
+      setStatus(result.excluded.length?`集計しました。不正な期限の${result.excluded.length}行を除外しました。`:'集計しました。','success');
+    } catch (_) { $('results').hidden=true; lastResult=null; setStatus('CSVを読み込めませんでした。ファイル形式と文字コードを確認してください。','error'); }
+  }
+  $('sampleButton').addEventListener('click',()=>{ inputText=SAMPLE; $('csvFile').value=''; $('currentData').textContent='使用中データ：架空のサンプルデータ'; setStatus('サンプルデータを読み込みました。「集計する」を押してください。','success'); });
+  $('csvFile').addEventListener('change',event=>{
+    const file=event.target.files[0]; if (!file) return;
+    if (!/\.csv$/i.test(file.name)) { event.target.value=''; setStatus('CSV形式のファイルを選択してください。','error'); return; }
+    const reader=new FileReader();
+    reader.onload=()=>{ inputText=String(reader.result); $('currentData').textContent=`使用中データ：${file.name}`; setStatus('CSVファイルを読み込みました。「集計する」を押してください。','success'); };
+    reader.onerror=()=>setStatus('CSVを読み込めませんでした。ファイル形式と文字コードを確認してください。','error');
+    reader.readAsText(file,'UTF-8');
+  });
+  $('aggregateButton').addEventListener('click',aggregate);
+  $('resetButton').addEventListener('click',()=>{ inputText=''; lastResult=null; $('csvFile').value=''; $('currentData').textContent='使用中データ：なし'; $('baseDate').value=localToday(); $('results').hidden=true; $('report').value=''; setStatus(''); });
+  $('regenerateButton').addEventListener('click',()=>{ if (!lastResult) return; $('report').value=generateReport(lastResult); setStatus('編集内容を集計結果から生成した報告文へ置き換えました。','success'); });
+  $('copyButton').addEventListener('click',async()=>{
+    const area=$('report');
+    try {
+      if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(area.value);
+      else { area.select(); if (!document.execCommand('copy')) throw new Error('copy failed'); }
+      setStatus('報告文をコピーしました。','success');
+    } catch (_) { area.focus(); area.select(); setStatus('自動コピーができませんでした。文章を選択し、端末のコピー機能を使用してください。','warning'); }
+  });
+  $('baseDate').value=localToday();
+  window.__unhandledCaseTool={parseCSV,validDate,analyze,generateReport,SAMPLE};
+})();
+</script>
+</body>
+</html>
