@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="限界開発の仕様、構築手順、テンプレート、PDF、実例、安全基準をまとめた資料インデックス。">
+<title>限界開発 仕様・再現資料</title>
+<style>
+:root{--bg:#090d12;--panel:#121922;--ink:#f7f4ec;--muted:#b9c1ca;--gold:#ffc84a;--line:#2b3745}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#17202a 0,#090d12 38rem);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.75}.wrap{width:min(980px,100%);margin:auto;padding:24px 15px 64px}a{color:inherit}.hero,.section{border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,rgba(20,28,38,.98),rgba(10,15,21,.98));padding:24px 20px;margin-bottom:16px}.kicker{color:var(--gold);font-weight:900;letter-spacing:.08em;margin:0}h1{font-size:clamp(2.2rem,8vw,4rem);line-height:1.1;margin:.2em 0}.lead{color:#e8edf2;font-size:1.08rem}.grid{display:grid;gap:12px}.card{display:block;padding:17px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.035);text-decoration:none}.card strong{display:block;color:var(--gold);font-size:1.08rem}.card span{color:var(--muted)}.btn{display:flex;align-items:center;justify-content:center;min-height:54px;margin-top:16px;padding:12px 18px;border-radius:12px;background:var(--gold);color:#17120a;font-weight:900;text-decoration:none}.small{color:var(--muted)}@media(min-width:700px){.grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body><main class="wrap">
+<header class="hero"><p class="kicker">LIMIT DEVELOPMENT / DOCUMENTATION</p><h1>限界開発<br>仕様・再現資料</h1><p class="lead">限界開発の考え方だけでなく、構築方法、テンプレート、実例、検証記録まで一か所から追えるインデックスです。</p><a class="btn" href="../">トップページへ戻る</a></header>
+<section class="section"><h2>1. まず読む</h2><div class="grid"><a class="card" href="specification.md"><strong>限界開発 仕様書</strong><span>目的、基本原則、スマホ1台から全工程をつなぐ構成、RTSとの関係。</span></a><a class="card" href="../README.md"><strong>リポジトリ概要</strong><span>公開開発の基本方針、構成、現在のエピソード。</span></a><a class="card" href="../SAFETY.md"><strong>安全基準</strong><span>公開開発で扱わない情報と、本番導入前に確認する事項。</span></a><a class="card" href="https://github.com/nobutakayamauchi/RTS"><strong>AI開発基盤 RTS</strong><span>仕様、判断、検証、ガバナンスを接続する共通基盤。</span></a></div></section>
+<section class="section"><h2>2. 限界開発を回す道具</h2><div class="grid"><a class="card" href="../templates/interview-template.md"><strong>インタビューテンプレート</strong><span>相談内容を安全に聞き取り、課題を絞るための型。</span></a><a class="card" href="../templates/specification-template.md"><strong>仕様書テンプレート</strong><span>目的、入力、出力、最低成功条件を固定する型。</span></a><a class="card" href="../templates/test-report-template.md"><strong>テスト報告テンプレート</strong><span>確認済み・未確認・失敗を分けて残す型。</span></a><a class="card" href="../templates/broadcast-report-template.md"><strong>配信報告テンプレート</strong><span>公開開発の実施内容と次の一手を記録する型。</span></a></div></section>
+<section class="section"><h2>3. 実例から再現する</h2><div class="grid"><a class="card" href="../episodes/2026-07-31-unhandled-case-report/"><strong>Episode 001 試作品</strong><span>未対応案件の抽出、期限分類、担当者集計、報告文生成。</span></a><a class="card" href="../episodes/2026-07-31-unhandled-case-report/SPEC.md"><strong>Episode 001 仕様書</strong><span>実際にどのように要件を固定したかを見る。</span></a><a class="card" href="../episodes/2026-07-31-unhandled-case-report/TEST_REPORT.md"><strong>テスト記録</strong><span>自動テストとスマホ実機確認の記録。</span></a><a class="card" href="../episodes/2026-07-31-unhandled-case-report/HANDOFF.md"><strong>引き継ぎ書</strong><span>次の担当や次回作業へ状態を渡すための記録。</span></a></div></section>
+<section class="section"><h2>4. PDF・公開資料</h2><div class="grid"><a class="card" href="../publications/episode001/"><strong>Episode 001 完全記録 PDF</strong><span>企画、安全設計、仕様化、実装、テスト、公開までの全工程。</span></a><a class="card" href="https://note.com/ultimatefire"><strong>note 開発記録</strong><span>失敗、改善、営業、公開ページ構築までの背景。</span></a></div><p class="small">GitHubページの作り方PDF、限界開発の構築手順PDFなどは、完成後にこの欄へ順次追加します。</p></section>
+<section class="section"><h2>5. 相談・開発リクエスト</h2><p>この資料を読んで、自分の業務でも試したいことがあれば、XのDMで困っている作業を一つだけ送ってください。</p><a class="btn" href="https://x.com/ultimate28">XのDMで相談する</a></section>
+</main></body></html>
