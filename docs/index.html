@@ -2,37 +2,24 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="限界開発の仕様、再現環境、現在の構成、置き換え方、テンプレート、実例、PDF、安全基準をまとめたドキュメントセンター。">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="限界開発の仕様、構築手順、再現環境、RTS接続、GitHub Pages、テンプレート、実例をまとめたドキュメントセンター。">
 <title>限界開発 ドキュメントセンター</title>
 <style>
-:root{--bg:#090d12;--panel:#121922;--ink:#f7f4ec;--muted:#b9c1ca;--gold:#ffc84a;--line:#2b3745;--red:#ff665c}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#17202a 0,#090d12 38rem);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.75}.wrap{width:min(1020px,100%);margin:auto;padding:24px 15px 64px}a{color:inherit}.hero,.section{border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,rgba(20,28,38,.98),rgba(10,15,21,.98));padding:24px 20px;margin-bottom:16px}.kicker{color:var(--gold);font-weight:900;letter-spacing:.08em;margin:0}h1{font-size:clamp(2.2rem,8vw,4rem);line-height:1.1;margin:.2em 0}.lead{color:#e8edf2;font-size:1.08rem}.route{margin-top:14px;padding:14px;border-left:5px solid var(--gold);background:rgba(255,200,74,.07);border-radius:10px}.grid{display:grid;gap:12px}.card{display:block;padding:17px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.035);text-decoration:none}.card:hover{border-color:var(--gold)}.card strong{display:block;color:var(--gold);font-size:1.08rem}.card span{color:var(--muted)}.btn{display:flex;align-items:center;justify-content:center;min-height:54px;margin-top:16px;padding:12px 18px;border-radius:12px;background:var(--gold);color:#17120a;font-weight:900;text-decoration:none}.btn.alt{background:transparent;color:var(--gold);border:2px solid var(--gold)}.small{color:var(--muted)}.pending{opacity:.72}.warn{border-left:6px solid var(--red)}.stack{white-space:pre-wrap;padding:16px;border:1px solid var(--line);border-radius:12px;background:#080d13;color:#e7edf4;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9rem;overflow:auto}footer{text-align:center;color:var(--muted);padding:20px 0}@media(min-width:700px){.grid{grid-template-columns:1fr 1fr}.hero{padding:30px}}
+:root{--bg:#090d12;--ink:#f7f4ec;--muted:#b9c1ca;--gold:#ffc84a;--line:#2b3745;--red:#ff665c}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#17202a 0,#090d12 38rem);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.75}.wrap{width:min(1020px,100%);margin:auto;padding:24px 15px 64px}a{color:inherit}.hero,.section{border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,rgba(20,28,38,.98),rgba(10,15,21,.98));padding:24px 20px;margin-bottom:16px}.kicker{color:var(--gold);font-weight:900;letter-spacing:.08em;margin:0}h1{font-size:clamp(2.2rem,8vw,4rem);line-height:1.1;margin:.2em 0}.lead{color:#e8edf2;font-size:1.08rem}.route{margin-top:14px;padding:14px;border-left:5px solid var(--gold);background:rgba(255,200,74,.07);border-radius:10px}.grid{display:grid;gap:12px}.card{display:block;padding:17px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.035);text-decoration:none}.card:hover{border-color:var(--gold)}.card strong{display:block;color:var(--gold);font-size:1.08rem}.card span{color:var(--muted)}.btn{display:flex;align-items:center;justify-content:center;min-height:54px;margin-top:16px;padding:12px 18px;border-radius:12px;background:var(--gold);color:#17120a;font-weight:900;text-decoration:none}.btn.alt{background:transparent;color:var(--gold);border:2px solid var(--gold)}.small{color:var(--muted)}.warn{border-left:6px solid var(--red)}.stack{white-space:pre-wrap;padding:16px;border:1px solid var(--line);border-radius:12px;background:#080d13;color:#e7edf4;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88rem;overflow:auto}footer{text-align:center;color:var(--muted);padding:20px 0}@media(min-width:700px){.grid{grid-template-columns:1fr 1fr}.hero{padding:30px}}
 </style>
 </head>
 <body><main class="wrap">
-<header class="hero">
-<p class="kicker">LIMIT DEVELOPMENT / DOCUMENTATION CENTER</p>
-<h1>限界開発<br>ドキュメントセンター</h1>
-<p class="lead">スマホを司令塔として、AI・GitHub・クラウド実行環境・公開ページを一つにつなぐ開発方式。その仕様、再現環境、資料、実例をまとめています。</p>
-<div class="route"><strong>初めての方へ：</strong> ①仕様書 → ②現在の構成と置き換え方 → ③テンプレート → ④Episode の順で読むと全体像を追いやすくなります。</div>
-<a class="btn alt" href="../">限界開発トップページへ戻る</a>
-</header>
+<header class="hero"><p class="kicker">LIMIT DEVELOPMENT / DOCUMENTATION CENTER</p><h1>限界開発<br>ドキュメントセンター</h1><p class="lead">スマホを司令塔として、AI・GitHub・クラウド実行環境・公開ページを一つにつなぐ開発方式。その仕様、構築、再現、実例をまとめています。</p><div class="route"><strong>推奨順：</strong> ①仕様 → ②環境 → ③構築 → ④RTS接続 → ⑤実例 の順で読むと、同じ流れを追試できます。</div><a class="btn alt" href="../">限界開発トップページへ戻る</a></header>
 
-<section class="section">
-<h2>① はじめに</h2>
-<div class="grid">
-<a class="card" href="specification.md"><strong>限界開発 仕様書</strong><span>目的、思想、対象課題、公開ルール、スマホから全工程を接続する構成、RTSとの関係。</span></a>
-<a class="card" href="../README.md"><strong>リポジトリ概要</strong><span>基本方針、ディレクトリ構成、現在のEpisodeと運用方法。</span></a>
-<a class="card" href="../SAFETY.md"><strong>公開開発の安全基準</strong><span>扱わない情報、本番利用前の確認事項、公開と実運用の境界。</span></a>
-<a class="card" href="https://github.com/nobutakayamauchi/RTS"><strong>AI開発基盤 RTS</strong><span>仕様、判断、ログ、検証、ガバナンスを接続する共通基盤。</span></a>
-</div>
-</section>
+<section class="section"><h2>① 限界開発を理解する</h2><div class="grid">
+<a class="card" href="specification.md"><strong>限界開発 仕様書</strong><span>目的、思想、対象課題、公開ルール、設計原則、RTSとの関係。</span></a>
+<a class="card" href="../README.md"><strong>リポジトリ概要</strong><span>全体構成、Episode、テンプレート、運用方法。</span></a>
+<a class="card" href="../SAFETY.md"><strong>公開開発の安全基準</strong><span>扱わない情報、本番利用前の確認、公開と実運用の境界。</span></a>
+<a class="card" href="https://github.com/nobutakayamauchi/RTS"><strong>AI開発基盤 RTS</strong><span>仕様、判断、検証、ガバナンスを接続する共通基盤。</span></a>
+</div></section>
 
-<section class="section">
-<h2>② 現在の構成と再現方法</h2>
-<p>現在は、iPhoneからChatGPT・Codex・GitHub・Termiusを操作し、Oracle Cloud上のUbuntuで実行・テスト・ログ確認を行い、GitHub Pages・note・Xへ接続しています。</p>
-<div class="stack">iPhone
+<section class="section"><h2>② 現在の環境を再現する</h2><p>現在は、iPhoneからChatGPT・Codex・GitHub・Termiusを操作し、Oracle Cloud上のUbuntuで実行・テスト・ログ確認を行っています。</p><div class="stack">iPhone
 ├─ ChatGPT / Codex ─ 仕様・実装・レビュー
 ├─ GitHub ─ コード・仕様・履歴・Pages
 ├─ Termius ─ SSH ─ Oracle Cloud Ubuntu
@@ -41,61 +28,41 @@
 │                    └─ ログ・更新・Git操作
 ├─ Safari ─ 公開ページ・実機確認
 ├─ note ─ 開発記録
-└─ X ─ 告知・相談受付</div>
-<div class="grid" style="margin-top:12px">
-<a class="card" href="reproduction-environment.md"><strong>環境・接続構成・置き換え方</strong><span>Oracle CloudとTermiusを含む現在の実構成、各ツールの役割、最小構成、再現条件を確認する。</span></a>
-<a class="card" href="reproduction-environment.md#3-使用するサービスは置き換え可能です"><strong>好きなツールへ置き換える</strong><span>AI、クラウド、SSH、公開先、記録媒体を役割ごとに別サービスへ交換できます。</span></a>
-<a class="card" href="specification.md"><strong>限界開発の詳細仕様</strong><span>何を満たせば限界開発と呼べるのか、設計原則と運用境界を確認する。</span></a>
-<div class="card pending"><strong>限界開発の構築手順</strong><span>環境準備から最初の公開までを通すガイド。現在整理中です。</span></div>
-</div>
-<p class="small">再現すべきものは商品名ではありません。相談、問題分解、仕様化、実装、テスト、確認、記録、公開を一つの流れとして接続することです。</p>
-</section>
+└─ X ─ 告知・相談受付</div><div class="grid" style="margin-top:12px">
+<a class="card" href="reproduction-environment.md"><strong>環境・前提条件・置き換え方</strong><span>現在の実構成、役割分担、最小構成、好きなサービスへの置き換え方法。</span></a>
+<a class="card" href="build-guide.md"><strong>限界開発の構築手順</strong><span>準備、仕様化、実装、Oracle Cloudでのテスト、公開、引き継ぎまで。</span></a>
+<a class="card" href="rts-integration.md"><strong>RTSとの接続方法</strong><span>Episodeの仕様・判断・テスト・引き継ぎを共通基盤へ接続する。</span></a>
+<a class="card" href="github-pages-guide.md"><strong>GitHub Pages 作成ガイド</strong><span>入口ページの作成、画像配置、Pages設定、スマホ確認、よくある失敗。</span></a>
+</div><p class="small">再現すべきものは商品名ではなく、相談、分解、仕様化、実装、テスト、確認、記録、公開を一つの流れとして接続することです。</p></section>
 
-<section class="section">
-<h2>③ 実際に使うテンプレート</h2>
-<div class="grid">
-<a class="card" href="../templates/interview-template.md"><strong>インタビューテンプレート</strong><span>相談内容を安全に聞き取り、課題と公開可能範囲を絞る型。</span></a>
-<a class="card" href="../templates/specification-template.md"><strong>仕様書テンプレート</strong><span>目的、入力、出力、制約、最低成功条件を固定する型。</span></a>
-<a class="card" href="../templates/test-report-template.md"><strong>テスト報告テンプレート</strong><span>確認済み、未確認、失敗、残課題を分けて記録する型。</span></a>
-<a class="card" href="../templates/broadcast-report-template.md"><strong>配信報告テンプレート</strong><span>公開開発で実施したこと、判断、結果、次の一手を記録する型。</span></a>
-</div>
-</section>
+<section class="section"><h2>③ 実際に使うテンプレート</h2><div class="grid">
+<a class="card" href="../templates/interview-template.md"><strong>インタビューテンプレート</strong><span>相談内容と公開可能範囲を安全に絞る。</span></a>
+<a class="card" href="../templates/specification-template.md"><strong>仕様書テンプレート</strong><span>目的、入力、出力、制約、最低成功条件を固定する。</span></a>
+<a class="card" href="../templates/test-report-template.md"><strong>テスト報告テンプレート</strong><span>確認済み、未確認、失敗、残課題を分ける。</span></a>
+<a class="card" href="../templates/broadcast-report-template.md"><strong>配信報告テンプレート</strong><span>実施内容、判断、結果、次の一手を残す。</span></a>
+</div></section>
 
-<section class="section">
-<h2>④ Episodeで追試する</h2>
-<div class="grid">
-<a class="card" href="../episodes/2026-07-31-unhandled-case-report/"><strong>Episode 001 試作品</strong><span>CSVから未対応案件を抽出し、期限分類、担当者集計、報告文を生成する実例。</span></a>
-<a class="card" href="../episodes/2026-07-31-unhandled-case-report/SPEC.md"><strong>Episode 001 仕様書</strong><span>相談から要件をどのように固定したかを見る。</span></a>
-<a class="card" href="../episodes/2026-07-31-unhandled-case-report/TEST_REPORT.md"><strong>テスト記録</strong><span>自動テストとスマホ実機確認の内容、確認済み・未確認の区別。</span></a>
-<a class="card" href="../episodes/2026-07-31-unhandled-case-report/HANDOFF.md"><strong>引き継ぎ書</strong><span>現在地、残課題、次回作業を別の担当や別セッションへ渡す記録。</span></a>
-</div>
-</section>
+<section class="section"><h2>④ Episode 001で追試する</h2><div class="grid">
+<a class="card" href="../episodes/2026-07-31-unhandled-case-report/"><strong>試作品を開く</strong><span>未対応案件の抽出、期限分類、担当者集計、報告文生成。</span></a>
+<a class="card" href="../episodes/2026-07-31-unhandled-case-report/SPEC.md"><strong>仕様書</strong><span>相談から要件をどう固定したか。</span></a>
+<a class="card" href="../episodes/2026-07-31-unhandled-case-report/TEST_REPORT.md"><strong>テスト記録</strong><span>自動テストとスマホ実機確認、未確認事項。</span></a>
+<a class="card" href="../episodes/2026-07-31-unhandled-case-report/HANDOFF.md"><strong>引き継ぎ書</strong><span>現在地、残課題、次回作業を別セッションへ渡す。</span></a>
+</div></section>
 
-<section class="section">
-<h2>⑤ PDF・公開資料</h2>
-<div class="grid">
-<a class="card" href="../publications/episode001/"><strong>Episode 001 完全記録 PDF</strong><span>企画、安全設計、仕様化、実装、テスト、公開までの全工程。</span></a>
-<a class="card" href="https://note.com/ultimatefire"><strong>note 開発日誌</strong><span>失敗、改善、営業、GitHub Pages構築など、開発の背景と判断。</span></a>
-<div class="card pending"><strong>GitHub Pages 作成ガイド PDF</strong><span>完成後、このインデックスから直接読めるように追加します。</span></div>
-<div class="card pending"><strong>限界開発 構築ガイド PDF</strong><span>再現環境と構築手順を一冊にまとめる予定です。</span></div>
-</div>
-</section>
+<section class="section"><h2>⑤ 完成記録・開発日誌</h2><div class="grid">
+<a class="card" href="../publications/episode001/"><strong>Episode 001 完全記録</strong><span>企画、安全設計、仕様化、実装、テスト、公開まで。</span></a>
+<a class="card" href="https://note.com/ultimatefire"><strong>note 開発日誌</strong><span>失敗、改善、営業、GitHub Pages構築の背景と判断。</span></a>
+<a class="card" href="github-pages-guide.md"><strong>GitHubページを自分で作る</strong><span>同じ入口ページを作るための実践ガイド。</span></a>
+<a class="card" href="build-guide.md"><strong>限界開発を一式構築する</strong><span>最初の案件を公開まで通す完全手順。</span></a>
+</div></section>
 
-<section class="section warn">
-<h2>このプロジェクトが公開するもの</h2>
-<p>限界開発は完成品だけでなく、発想、聞き取り、要件整理、仕様化、実装、テスト、失敗、修正、公開、運用までを一つの流れとして残します。</p>
-<p class="small">使用したテンプレート・仕様書・PDF・構築方法も順次公開し、別の人が自分の好きな道具へ置き換えながら追試できる状態を目指します。</p>
-</section>
+<section class="section warn"><h2>公開するのは完成品だけではありません</h2><p>発想、聞き取り、要件整理、仕様化、実装、テスト、失敗、修正、公開、引き継ぎまでを一つの流れとして残します。</p><p class="small">資料を読んだ人が、自分の好きなAI、クラウド、SSHアプリ、公開先へ置き換えて追試できる状態を目指しています。</p></section>
 
-<section class="section">
-<h2>⑥ 開発ログ・相談窓口</h2>
-<div class="grid">
+<section class="section"><h2>⑥ 開発ログ・相談窓口</h2><div class="grid">
 <a class="card" href="https://github.com/nobutakayamauchi/RS-AI-limit-development"><strong>限界開発 Repository</strong><span>仕様、テンプレート、Episode、公開ページの実体。</span></a>
 <a class="card" href="https://x.com/ultimate28"><strong>X：毎日の開発ログ</strong><span>進捗、失敗、改善、相談受付。</span></a>
-<a class="card" href="https://note.com/ultimatefire"><strong>note：開発記録</strong><span>背景、試行錯誤、学びを文章で読む。</span></a>
-<a class="card" href="https://x.com/ultimate28"><strong>XのDMで相談する</strong><span>困っている作業を一つだけ送ってください。公開可能範囲を確認してから扱います。</span></a>
-</div>
-<a class="btn" href="https://x.com/ultimate28">XのDMで相談・開発リクエストを送る</a>
-</section>
+<a class="card" href="https://note.com/ultimatefire"><strong>note：開発記録</strong><span>背景と試行錯誤を文章で読む。</span></a>
+<a class="card" href="https://x.com/ultimate28"><strong>XのDMで相談する</strong><span>困っている作業を一つだけ送ってください。</span></a>
+</div><a class="btn" href="https://x.com/ultimate28">XのDMで相談・開発リクエストを送る</a></section>
 <footer>RS AI / 山内 延天 — 限界は、創るもの。</footer>
 </main></body></html>
