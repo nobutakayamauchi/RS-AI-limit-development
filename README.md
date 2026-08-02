@@ -1,5 +1,8 @@
 # RS-AI-limit-development
 
+> **限界開発の公式ページ**  
+> https://nobutakayamauchi.github.io/RS-AI-limit-development/
+
 スマホ1台とAIで公開開発を行う「限界開発」シリーズの試作品・仕様書・検証記録です。
 
 ## 限界開発とは
