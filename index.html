@@ -3,42 +3,59 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="スマホを司令塔として、AI・GitHub・クラウド実行環境・公開ページをつなぎ、仕事になる仕組みを公開で作る『限界開発』の公式入口。">
-<meta property="og:title" content="限界開発｜スマホ1台から、仕事になる仕組みをつなぐ">
-<meta property="og:description" content="悩みを聞き、業務を分解し、最小試作品を作り、クラウドで試し、記録して公開する。道具は好きなものへ置き換え可能。">
+<meta name="description" content="スマホを司令塔として、AI・GitHub・通常サーバー・非常用クラウド実行環境をつなぎ、安全確認、料金確認、明示承認を経て仕事になる仕組みを公開で作る『限界開発』の公式入口。">
+<meta property="og:title" content="限界開発｜スマホ1台から、安全に仕事になる仕組みをつなぐ">
+<meta property="og:description" content="入力を検査し、料金と影響を確認し、1回ごとの承認後にだけ実行する。失敗・費用・判断まで残すスマホ中心の公開開発。">
 <title>限界開発｜RS AI</title>
 <style>
-:root{--bg:#090d12;--panel:#121922;--ink:#f7f4ec;--muted:#b9c1ca;--gold:#ffc84a;--red:#ff4d42;--line:#2b3745}
+:root{--bg:#090d12;--panel:#121922;--ink:#f7f4ec;--muted:#b9c1ca;--gold:#ffc84a;--red:#ff4d42;--green:#65d690;--line:#2b3745}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at top,#17202a 0,#090d12 38rem);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.8}
-a{color:inherit}.wrap{width:min(1080px,100%);margin:auto;padding:18px 15px 64px}.hero{overflow:hidden;border:1px solid var(--line);border-radius:22px;background:#050709;box-shadow:0 18px 60px rgba(0,0,0,.45)}.hero img{display:block;width:100%;height:auto}.intro{padding:26px 22px 30px}.kicker{margin:0;color:var(--gold);font-weight:900;letter-spacing:.08em}h1{font-size:clamp(2.2rem,8vw,5rem);line-height:1.08;margin:.15em 0 .25em}.lead{font-size:clamp(1.05rem,3vw,1.35rem);color:#e8edf2;max-width:800px}.sublead{margin:.7em 0 0;color:var(--muted);font-size:1rem}.actions{display:grid;gap:12px;margin-top:24px}.btn{display:flex;align-items:center;justify-content:center;min-height:56px;padding:12px 18px;border-radius:12px;text-decoration:none;font-weight:900;border:2px solid var(--gold);background:var(--gold);color:#17120a}.btn.alt{background:transparent;color:var(--gold)}.primary-contact{margin-top:18px}.primary-contact .btn{min-height:62px;font-size:1.08rem}.contact{display:flex;align-items:center;gap:14px;margin-top:12px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(145deg,rgba(18,25,34,.95),rgba(8,12,17,.95));text-decoration:none}.contact-icon{font-size:1.7rem;color:var(--gold);line-height:1}.contact-text{margin:0;font-size:1rem}.contact-text strong{color:var(--gold)}section{margin-top:18px;padding:24px 20px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,rgba(20,28,38,.96),rgba(11,16,22,.96))}h2{margin:0 0 .6em;font-size:clamp(1.5rem,5vw,2.2rem)}.grid{display:grid;gap:12px}.card{padding:17px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.035)}.card strong{display:block;color:var(--gold);font-size:1.08rem}.flow{display:grid;gap:10px;counter-reset:s}.step{position:relative;padding:16px 16px 16px 58px;border-radius:12px;background:#0b1118;border:1px solid var(--line)}.step:before{counter-increment:s;content:counter(s);position:absolute;left:16px;top:15px;width:29px;height:29px;display:grid;place-items:center;border-radius:50%;background:var(--gold);color:#15100a;font-weight:900}.stack{white-space:pre-wrap;padding:16px;border:1px solid var(--line);border-radius:12px;background:#080d13;color:#e7edf4;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9rem;overflow:auto}.warn{border-left:6px solid var(--red)}.result{border-left:6px solid var(--gold)}.result strong{color:var(--gold)}.small{color:var(--muted);font-size:.94rem}footer{padding:30px 10px;text-align:center;color:var(--muted)}@media(min-width:700px){.wrap{padding-top:30px}.actions{grid-template-columns:repeat(3,1fr)}.grid.two{grid-template-columns:1fr 1fr}.flow{grid-template-columns:repeat(5,1fr)}.step{padding:55px 14px 14px}.step:before{left:14px}.primary-contact .btn{max-width:420px}}
+a{color:inherit}.wrap{width:min(1080px,100%);margin:auto;padding:18px 15px 64px}.hero{overflow:hidden;border:1px solid var(--line);border-radius:22px;background:#050709;box-shadow:0 18px 60px rgba(0,0,0,.45)}.hero img{display:block;width:100%;height:auto}.intro{padding:26px 22px 30px}.kicker{margin:0;color:var(--gold);font-weight:900;letter-spacing:.08em}h1{font-size:clamp(2.2rem,8vw,5rem);line-height:1.08;margin:.15em 0 .25em}.lead{font-size:clamp(1.05rem,3vw,1.35rem);color:#e8edf2;max-width:800px}.sublead{margin:.7em 0 0;color:var(--muted);font-size:1rem}.actions{display:grid;gap:12px;margin-top:24px}.btn{display:flex;align-items:center;justify-content:center;min-height:56px;padding:12px 18px;border-radius:12px;text-decoration:none;font-weight:900;border:2px solid var(--gold);background:var(--gold);color:#17120a}.btn.alt{background:transparent;color:var(--gold)}.primary-contact{margin-top:18px}.primary-contact .btn{min-height:62px;font-size:1.08rem}.contact{display:flex;align-items:center;gap:14px;margin-top:12px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(145deg,rgba(18,25,34,.95),rgba(8,12,17,.95));text-decoration:none}.contact-icon{font-size:1.7rem;color:var(--gold);line-height:1}.contact-text{margin:0;font-size:1rem}.contact-text strong{color:var(--gold)}section{margin-top:18px;padding:24px 20px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,rgba(20,28,38,.96),rgba(11,16,22,.96))}h2{margin:0 0 .6em;font-size:clamp(1.5rem,5vw,2.2rem)}.grid{display:grid;gap:12px}.card{padding:17px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.035)}.card strong{display:block;color:var(--gold);font-size:1.08rem}.flow{display:grid;gap:10px;counter-reset:s}.step{position:relative;padding:16px 16px 16px 58px;border-radius:12px;background:#0b1118;border:1px solid var(--line)}.step:before{counter-increment:s;content:counter(s);position:absolute;left:16px;top:15px;width:29px;height:29px;display:grid;place-items:center;border-radius:50%;background:var(--gold);color:#15100a;font-weight:900}.stack{white-space:pre-wrap;padding:16px;border:1px solid var(--line);border-radius:12px;background:#080d13;color:#e7edf4;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9rem;overflow:auto}.warn{border-left:6px solid var(--red)}.safe{border-left:6px solid var(--green)}.result{border-left:6px solid var(--gold)}.result strong{color:var(--gold)}.small{color:var(--muted);font-size:.94rem}footer{padding:30px 10px;text-align:center;color:var(--muted)}@media(min-width:700px){.wrap{padding-top:30px}.actions{grid-template-columns:repeat(3,1fr)}.grid.two{grid-template-columns:1fr 1fr}.flow{grid-template-columns:repeat(5,1fr)}.step{padding:55px 14px 14px}.step:before{left:14px}.primary-contact .btn{max-width:420px}}
 </style>
 </head>
 <body><main class="wrap">
 <header class="hero"><img src="E51A0A69-BF80-4F3C-B8AA-76340F8F0DBF.png" alt="限界開発の予告画像。スマホ1台からAIとクラウドをつなぎ、仕事になる仕組みを公開開発する様子。"><div class="intro">
 <p class="kicker">RS AI / PUBLIC DEVELOPMENT</p><h1>限界開発</h1>
 <p class="lead">仕事の「面倒」を、AIで小さな仕組みに変える公開開発プロジェクトです。</p>
-<p class="sublead">スマホを司令塔として、AI・GitHub・クラウド実行環境・公開ページを一つにつなぎます。使う道具は、目的や予算に合わせて好きなものへ置き換えられます。</p>
+<p class="sublead">スマホを司令塔として、AI・GitHub・通常サーバー・必要時だけ使う非常用計算環境・公開ページを一つにつなぎます。速さより先に、安全性・費用・承認境界を固定します。</p>
 <div class="primary-contact"><a class="btn" href="https://x.com/ultimate28">相談する（XのDM）</a></div>
 <div class="actions"><a class="btn alt" href="docs/">仕様・再現資料を見る</a><a class="btn alt" href="https://github.com/nobutakayamauchi/RS-AI-limit-development#readme">GitHubで開発を見る</a><a class="btn alt" href="https://github.com/nobutakayamauchi/RTS">AI開発基盤 RTS</a><a class="btn alt" href="https://x.com/ultimate28">毎日の開発記録を見る</a></div>
 <a class="contact" href="https://x.com/ultimate28" aria-label="Xでお問い合わせ・開発リクエストを送る"><span class="contact-icon">➤</span><p class="contact-text">お問い合わせと開発リクエストは<br><strong>XのDM</strong>で受け付けています。</p></a>
 </div></header>
 
-<section><h2>現在の開発構成</h2><p>現在は、iPhoneからAI・GitHub・Termiusを操作し、Oracle Cloud上のUbuntuで実行・テスト・ログ確認を行っています。</p><div class="stack">iPhone
+<section><h2>現在の開発構成</h2><p>通常はiPhoneからAI・GitHub・Termiusを操作し、Oracle Cloud上のUbuntuで実行・テスト・ログ確認を行います。通常環境で能力不足になった重処理だけ、毎回の確認後にGoogle Cloudへ逃がします。</p><div class="stack">iPhone
 ├─ ChatGPT / Codex ─ 仕様・実装・レビュー
 ├─ GitHub ─ コード・仕様・履歴・Pages
 ├─ Termius ─ SSH ─ Oracle Cloud Ubuntu
-│                    ├─ Python / CLI
-│                    ├─ テスト
-│                    └─ ログ・更新・Git操作
+│                    ├─ 通常の実行・テスト
+│                    ├─ Security Gate
+│                    ├─ Cost / Consequence Gate
+│                    └─ 承認・監査記録
+├─ Google Cloud ─ 非常用オーバーフロー計算
+│                 ├─ Artifact Registry
+│                 ├─ Cloud Storage 隔離領域
+│                 └─ Cloud Run Job（自動実行なし）
 ├─ Safari ─ 公開ページ・実機確認
 ├─ note ─ 開発記録
-└─ X ─ 告知・相談受付</div><p class="small">この構成は一例です。Oracle Cloud、Termius、GitHub Pages、note、Xなどは、同じ役割を果たす別のサービスへ置き換えられます。</p><a class="btn" href="docs/reproduction-environment.md">環境構成と置き換え方を見る</a></section>
+└─ X ─ 告知・相談受付</div><p class="small">Google Cloudは通常基盤ではありません。通常サーバーで完走できない処理を、手動確認後に1回だけ逃がす非常用経路です。各サービスは、同じ役割を果たす別の道具へ置き換えられます。</p><a class="btn" href="docs/reproduction-environment.md">環境構成と置き換え方を見る</a></section>
 
-<section><h2>こんな相談を探しています</h2><div class="grid two"><div class="card"><strong>繰り返し作業が重い</strong>コピー、転記、集計、報告、確認など、毎日同じ作業に時間を取られている。</div><div class="card"><strong>管理が仕事を食っている</strong>外注・スタッフへの説明、確認、修正、進行管理で本来の業務が止まっている。</div></div><p class="small">まずはXのDMで、困っている作業を一つだけ教えてください。公開可能な範囲を確認し、安全に扱えるテーマだけを開発候補にします。</p></section>
-<section><h2>相談すると何が起きるのか</h2><div class="flow"><div class="step"><strong>聞く</strong><br><span class="small">悩みを一つ聞く</span></div><div class="step"><strong>分ける</strong><br><span class="small">作業と判断を分解</span></div><div class="step"><strong>作る</strong><br><span class="small">最小試作品にする</span></div><div class="step"><strong>試す</strong><br><span class="small">架空データで確認</span></div><div class="step"><strong>残す</strong><br><span class="small">結果と限界を公開</span></div></div></section>
+<section class="safe"><h2>実行前の絶対ゲート</h2><p>入力を受け取っただけでは処理を開始しません。画像・動画・音声・文書・アーカイブ・CSV・JSONだけでなく、ファイル名、拡張子、MIME、メタデータ、入力文、URL、マニフェスト、実行引数も未信頼入力として扱います。</p><div class="stack">INPUT
+  ↓
+SECURITY GATE
+  ↓
+COST / CONSEQUENCE GATE
+  ↓
+EXPLICIT SINGLE-USE APPROVAL
+  ↓
+SCOPED EXECUTION
+  ↓
+OUTCOME VERIFICATION + AUDIT</div><div class="grid two"><div class="card"><strong>Security Gate</strong>許可形式、実体MIME、容量、解像度、尺、ストリーム、展開後容量、メタデータ、パス、埋め込み内容を検査。判定不能は隔離・拒否します。</div><div class="card"><strong>Cost Gate</strong>利用先、CPU・メモリ・モデル、最大時間、並列数、再試行、転送・保存、料金上限、外部への影響を表示します。</div><div class="card"><strong>Approval Gate</strong>検査済み入力ハッシュと実行条件へ紐づく、期限付き・1回限りの明示承認だけを受け付けます。</div><div class="card"><strong>Audit</strong>検査結果、見積もり、承認、実行ID、結果、実費、失敗、削除・後片付けまで残します。</div></div><p class="small">入力や条件が変わった場合は、以前の承認を流用せずSecurity Gateからやり直します。有料先への自動フォールバック、自動再試行、自動公開は行いません。</p></section>
+
+<section><h2>こんな相談を探しています</h2><div class="grid two"><div class="card"><strong>繰り返し作業が重い</strong>コピー、転記、集計、報告、確認など、毎日同じ作業に時間を取られている。</div><div class="card"><strong>管理が仕事を食っている</strong>外注・スタッフへの説明、確認、修正、進行管理で本来の業務が止まっている。</div></div><p class="small">まずはXのDMで、困っている作業を一つだけ教えてください。公開可能な範囲と安全に検査できる入力経路を確認し、扱えるテーマだけを開発候補にします。</p></section>
+<section><h2>相談すると何が起きるのか</h2><div class="flow"><div class="step"><strong>聞く</strong><br><span class="small">悩みを一つ聞く</span></div><div class="step"><strong>守る</strong><br><span class="small">安全・費用境界を固定</span></div><div class="step"><strong>分ける</strong><br><span class="small">作業と判断を分解</span></div><div class="step"><strong>作る</strong><br><span class="small">最小試作品にする</span></div><div class="step"><strong>残す</strong><br><span class="small">結果・費用・限界を公開</span></div></div></section>
 <section class="result"><h2>実際に作ったもの</h2><p><strong>Episode 001：</strong>CSVから未対応案件を抽出し、期限状況、担当者別件数、報告文までを自動生成する試作品を作りました。</p><div class="actions"><a class="btn" href="publications/episode001/">完成記録を見る</a><a class="btn alt" href="episodes/2026-07-31-unhandled-case-report/">試作品を開く</a><a class="btn alt" href="https://note.com/ultimatefire">noteを読む</a></div></section>
-<section><h2>限界開発とは</h2><p>完成品だけを見せる企画ではありません。相談、仕様化、判断、失敗、テスト、未確認事項、次の一手まで残します。</p><p>再現すべきものは特定サービスではなく、<strong>相談・問題分解・仕様化・実装・テスト・確認・記録・公開を一つの流れとして接続すること</strong>です。</p><a class="btn" href="docs/">仕様・構築・再現資料をまとめて見る</a></section>
-<section><h2>今回の制約</h2><div class="grid two"><div class="card"><strong>スマホ中心</strong>PCを前提にせず、スマホからAI開発環境とGitHubを動かします。</div><div class="card"><strong>時間は有限</strong>長期計画より、短時間でも価値を生む最小単位を優先します。</div><div class="card"><strong>お金をかけない</strong>無料・低コストの道具と、今ある環境を組み合わせます。</div><div class="card"><strong>秘密を持ち込まない</strong>実在する顧客情報や社外秘資料を使わず、架空データで試します。</div></div></section>
-<section class="warn"><h2>公開開発の安全線</h2><p>会社名、顧客名、個人情報、医療・介護情報、社内URL、ID、パスワード、APIキー、実在の顧客データ、非公開の売上情報は扱いません。</p><p class="small">サンプル条件で動いたことと、本番導入できることは別です。実務へ導入する場合は、データ形式、権限、保存、バックアップ、規約、セキュリティ、運用担当を改めて確認します。</p></section>
-<footer>RS AI / 山内 延天 — 制約があるほど、工夫が生まれる。</footer>
+<section><h2>限界開発とは</h2><p>完成品だけを見せる企画ではありません。相談、仕様化、安全境界、判断、失敗、テスト、費用、承認、未確認事項、次の一手まで残します。</p><p>再現すべきものは特定サービスではなく、<strong>相談・問題分解・安全確認・仕様化・実装・料金確認・承認・テスト・記録・公開を一つの流れとして接続すること</strong>です。</p><a class="btn" href="docs/">仕様・構築・再現資料をまとめて見る</a></section>
+<section><h2>今回の制約</h2><div class="grid two"><div class="card"><strong>スマホ中心</strong>PCを前提にせず、スマホからAI開発環境とGitHubを動かします。</div><div class="card"><strong>時間は有限</strong>長期計画より、短時間でも価値を生む最小単位を優先します。</div><div class="card"><strong>お金を勝手に使わない</strong>無料・低コストの道具を優先し、課金経路は上限表示と1回ごとの承認を必須にします。</div><div class="card"><strong>秘密と未検査入力を持ち込まない</strong>実在する顧客情報や社外秘資料を使わず、架空データと検査済み素材で試します。</div></div></section>
+<section class="warn"><h2>公開開発の安全線</h2><p>会社名、顧客名、個人情報、医療・介護情報、社内URL、ID、パスワード、APIキー、実在の顧客データ、非公開の売上情報は扱いません。</p><p class="small">サンプル条件で動いたことと、本番導入できることは別です。実務へ導入する場合は、データ形式、入力隔離、権限、保存、バックアップ、規約、セキュリティ、費用上限、運用担当を改めて確認します。</p></section>
+<footer>RS AI / 山内 延天 — 制約があるほど、守る順番が重要になる。</footer>
 </main></body></html>
