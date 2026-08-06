@@ -1,0 +1,34 @@
+name: Debug Engine
+
+on:
+  pull_request:
+    paths:
+      - 'tools/debug-engine/**'
+      - 'templates/**'
+      - 'docs/**'
+      - '.github/workflows/debug-engine.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run debug engine tests
+        run: |
+          python -m unittest discover -s tools/debug-engine -p 'test_*.py' -v
+          python -m unittest discover -s tools/debug-engine/visual-map -p 'test_*.py' -v
+      - name: Generate sample navigation maps
+        run: |
+          python tools/debug-engine/visual-map/visual_map.py tools/debug-engine/visual-map/sample-map.json --output artifacts/navigation-map.html
+          python tools/debug-engine/visual-map/focused_maps.py tools/debug-engine/visual-map/sample-map.json --output-dir artifacts/navigation-maps --focused
+      - uses: actions/upload-artifact@v4
+        with:
+          name: navigation-map-sample
+          path: artifacts/
