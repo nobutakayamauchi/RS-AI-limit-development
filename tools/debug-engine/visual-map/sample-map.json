@@ -1,0 +1,106 @@
+{
+  "title": "Vlog Tool Navigation Map",
+  "screens": [
+    {
+      "id": "home",
+      "label": "ホーム",
+      "section": "開始",
+      "screenshot": "screens/home.png",
+      "x": 40,
+      "y": 60
+    },
+    {
+      "id": "editor",
+      "label": "編集画面",
+      "section": "編集",
+      "screenshot": "screens/editor.png",
+      "x": 420,
+      "y": 60
+    },
+    {
+      "id": "preview_export",
+      "label": "プレビュー書き出し",
+      "section": "確認",
+      "screenshot": "screens/preview-export.png",
+      "x": 800,
+      "y": 60
+    },
+    {
+      "id": "preview_player",
+      "label": "プレビュー再生",
+      "section": "確認",
+      "screenshot": "screens/preview-player.png",
+      "x": 1180,
+      "y": 60
+    },
+    {
+      "id": "final_export",
+      "label": "最終版書き出し",
+      "section": "出力",
+      "screenshot": "screens/final-export.png",
+      "x": 800,
+      "y": 430
+    },
+    {
+      "id": "blocked",
+      "label": "無反応・操作不能",
+      "section": "異常",
+      "screenshot": "",
+      "x": 1180,
+      "y": 430
+    }
+  ],
+  "actions": [
+    {
+      "id": "create-project",
+      "source": "home",
+      "label": "新規Vlog",
+      "expected_target": "editor",
+      "observed_target": "editor",
+      "status": "confirmed"
+    },
+    {
+      "id": "preview-export",
+      "source": "editor",
+      "label": "プレビュー書き出し",
+      "expected_target": "preview_export",
+      "observed_target": "preview_export",
+      "status": "confirmed"
+    },
+    {
+      "id": "play-preview",
+      "source": "preview_export",
+      "label": "再生して確認",
+      "expected_target": "preview_player",
+      "observed_target": "preview_player",
+      "status": "confirmed"
+    },
+    {
+      "id": "return-editor",
+      "source": "preview_player",
+      "label": "編集へ戻る",
+      "expected_target": "editor",
+      "observed_target": "editor",
+      "status": "confirmed",
+      "kind": "return"
+    },
+    {
+      "id": "final-export-after-preview",
+      "source": "editor",
+      "label": "最終版書き出し",
+      "expected_target": "final_export",
+      "observed_target": "blocked",
+      "status": "mismatch",
+      "note": "プレビュー再生から戻った後のみ、ボタンが表示されるが操作を受理しない"
+    },
+    {
+      "id": "unknown-help",
+      "source": "final_export",
+      "label": "上部リンク",
+      "expected_target": null,
+      "observed_target": null,
+      "status": "unknown",
+      "note": "接続先未確認"
+    }
+  ]
+}

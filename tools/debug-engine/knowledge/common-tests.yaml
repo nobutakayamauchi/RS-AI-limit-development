@@ -1,0 +1,89 @@
+version: 0.1
+promotion_policy:
+  min_distinct_surfaces: 2
+  min_reproductions: 3
+  critical_always_promote:
+    - data_loss
+    - false_success
+    - global_input_lock
+    - unrecoverable_state
+
+tests:
+  - id: repeated-input-single-accept
+    title: 連打・重複入力の単一受理
+    purpose: 同じ操作が短時間に複数回入力されても処理を一度だけ開始する
+    tags: [STRESS_TEST, STATE_MISMATCH]
+    steps:
+      - 対象操作を短時間に複数回実行する
+      - 処理数、通信数、生成物数を確認する
+    expected:
+      - 処理は一度だけ開始される
+      - UIが全体操作不能にならない
+      - 重複した生成物が作られない
+    severity: high
+
+  - id: leave-and-return-during-processing
+    title: 処理中離脱・復帰
+    purpose: 非同期処理中に画面を離れても状態と結果を正しく復元する
+    tags: [DESTRUCTIVE_TEST, RECOVERY_TEST]
+    steps:
+      - 処理を開始する
+      - 完了前に別画面へ移動する
+      - 対象画面へ戻る
+    expected:
+      - 処理状態が正しく表示される
+      - 二重実行されない
+      - 完了結果へ到達できる
+    severity: critical
+
+  - id: empty-state-guard
+    title: 未選択・空状態進行防止
+    purpose: 必須入力がない状態で破綻した処理へ進ませない
+    tags: [ACCIDENTAL_MISUSE]
+    steps:
+      - 必須項目を選択せず次操作を実行する
+    expected:
+      - 処理は開始されない
+      - 理由と次の行動が表示される
+      - 既存データは保持される
+    severity: high
+
+  - id: save-exit-restore
+    title: 保存前離脱・再編集復元
+    purpose: 離脱や再入場によって編集内容を消失させない
+    tags: [RECOVERY_TEST, DATA_LOSS_RISK]
+    steps:
+      - 編集を加える
+      - 保存直前または保存中に離脱する
+      - 再入場して編集を再開する
+    expected:
+      - 保存済み境界が明示される
+      - 復元可能な編集内容が保持される
+      - 消失の可能性がある場合は事前警告する
+    severity: critical
+
+  - id: error-retry-idempotency
+    title: エラー後の安全な再実行
+    purpose: 失敗後の再試行で状態重複や破損を起こさない
+    tags: [RECOVERY_TEST, STATE_MISMATCH]
+    steps:
+      - 通信または処理エラーを発生させる
+      - エラー表示後に再実行する
+    expected:
+      - 古い処理状態が残らない
+      - 再試行は一度だけ実行される
+      - 成功または再度の明確な失敗へ到達する
+    severity: high
+
+  - id: preview-final-consistency
+    title: プレビュー・最終成果物整合
+    purpose: 確認した内容と最終出力の差異を検出する
+    tags: [NORMAL_FLOW, STATE_MISMATCH]
+    steps:
+      - プレビューを生成して記録する
+      - 同じ編集状態から最終出力を生成する
+      - 長さ、構成、音声、主要フレームを比較する
+    expected:
+      - 許容差を超える差異がない
+      - 使用した編集状態の版が一致する
+    severity: critical
