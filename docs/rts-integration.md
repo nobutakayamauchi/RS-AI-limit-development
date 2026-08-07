@@ -1,115 +1,174 @@
-# RTSとの接続方法
+# RTSとの接続 — 限界開発の統制基盤
 
-RTSは、限界開発で発生する仕様、判断、検証、リスク、引き継ぎを一つの流れとして管理する共通基盤です。
+更新: 2026-08-07
 
-## RTSを使う目的
+## RTSの位置付け
 
-限界開発はAIへ丸投げする方式ではありません。人間の判断点と、AIが行った作業を分離して残す必要があります。
+RTSは限界開発の主役ではありません。
 
-RTSは主に次を担当します。
+限界開発を続けるうちに、複数のAI、複数のプロジェクト、古い実装、仕様、観測、判断が混ざり始めたため、それらを分離して「どこまで分かっていて、誰が次を決めるのか」を保持するために生えた共通基盤です。
 
-- 仕様管理
-- 判断記録
-- ガバナンス
-- 実行前確認
-- テスト記録
-- リスク確認
-- 引き継ぎ
-- 改善結果の蓄積
+限界開発の定義自体は変わりません。
 
-## 接続する情報
-
-各Episodeから、最低限次の情報をRTSへ渡します。
-
-| 情報 | 内容 |
-|---|---|
-| 課題 | 何に困っているか |
-| 入力 | 何を受け取るか |
-| 出力 | 何を返すか |
-| 制約 | やってはいけないこと |
-| 成功条件 | どこまで動けば合格か |
-| 判断者 | 誰が最終承認するか |
-| テスト結果 | 確認済み・未確認・失敗 |
-| 次の一手 | 継続・修正・停止の判断 |
-
-## 接続フロー
+## 現在のVertical Slice
 
 ```text
-相談
-  ↓
-Episode仕様書
-  ↓
-RTSで判断点・制約・実行条件を記録
-  ↓
-専用ブランチで実装
-  ↓
-Oracle Cloud / 実機でテスト
-  ↓
-RTSへ結果と未確認事項を戻す
-  ↓
-人間が公開・継続・停止を承認
+Idea / Problem
+    ↓
+Idea Routing
+    ↓
+Human Routing Decision
+    ↓
+V1 Handoff
+    ↓
+Design Bundle
+    ↓
+Real Project Dogfood
+    ↓
+Deployment Identity Gate
+    ↓
+Observation
+    ↓
+Debug Link
+    ↓
+Lifecycle
+    ↓
+City Release
+    ↓
+Human Release Decision
 ```
 
-## 最小接続
+## 1. Idea Routing
 
-最初からRTSの全機能を使う必要はありません。最小構成では次の4点だけでも接続できます。
+思いつきや困りごとを、そのまま実装命令にしません。
 
-1. 仕様書
-2. 最低成功条件
-3. テスト報告
-4. 引き継ぎ書
+最低限、次のような情報へ変換します。
 
-この4点を同じEpisode IDで紐づければ、別のAIや別セッションでも再開可能になります。
+- idea identity
+- classification
+- target project
+- target component
+- timing
+- routing action
+- confidence
+- missing context
+- related FREEZER knowledge
 
-## Episode IDの扱い
+目的は「AIが賢く推測する」ことより、**どの文脈へ運ぶべき情報なのかを分離すること**です。
 
-案件ごとに一意の識別子を付けます。
+## 2. Human Routing Decision
 
-例：
+ルーティング候補が出ても、自動で別プロジェクトを書き換えません。
+
+人間がAPPROVE等の判断を行い、その判断記録を残してからhandoffします。
+
+ここで `implementation_executed = false` を維持できることが重要です。
+
+## 3. Design Bundle
+
+承認されたアイデアは、設計・議論用のBundleへ変換します。
+
+Bundleには、要求、目標、feature、missing part、既存コンテキスト、挿入候補、human discussion questions等を持たせます。
+
+設計候補が生成されても、この時点では実装しません。
+
+## 4. Real Project Dogfood
+
+設計上「あるはず」の機能と、現実に動いているものを分けるため、実プロジェクトで観測します。
+
+観測対象は、コードの存在ではなくruntime realityです。
+
+## 5. Deployment Identity Gate — V1.2
+
+V1 dogfoodで、古いソースツリーを実稼働と誤認しかける問題が見つかりました。
+
+V1.2では、runtime分類の前にDeployment Identityを要求します。
+
+候補:
+
+- `service` / unit
+- `working_directory`
+- `entrypoint` / loaded module
+- `active_surface` / routes
+- `revision` / deployed commit
+- supporting evidence
+
+不変条件:
+
+> **Deployment Identity MUST be established before runtime implementation classification.**
+
+> **Code existence != runtime evidence.**
+
+runtime observationが存在するのにverified deployment identityがない場合、Debug Linkは分類を拒否します。
+
+## 6. Observation
+
+実プロジェクトの各planned nodeを次の状態で扱います。
+
+- `AS_BUILT` — 実装・稼働を証拠で確認
+- `BROKEN` — 対象runtimeで故障を確認
+- `STALE` — 古い・非稼働・重複
+- `UNOBSERVED` — まだ確認していない
+
+観測がないものをAIの推測で埋めません。
+
+Observationは**修復命令ではなく証拠**です。
+
+## 7. Debug Link / Lifecycle
+
+Design Bundleと実観測を接続し、「計画されたもの」と「現実に観測されたもの」をLifecycleへ変換します。
+
+ここで重要なのは、正解率の演出ではなく、未観測やSTALEが残っていてもそのまま集計できることです。
+
+V1.2の実dogfoodでは、Deployment Identityなしではruntime classificationを拒否し、identity確認後に同じ観測を正常にLifecycle化できました。
+
+## 8. City Release
+
+Lifecycleをもとに、次へ進めるか、人間判断を待つべきかを整理します。
+
+City Releaseは自動リリース実行機ではありません。
+
+例:
 
 ```text
-EP-001-unhandled-case-report
+decision = V1_SCOPE_COMPLETE_WITH_KNOWN_ISSUES
+next_city = DOGFOODING
+human_decision_required = true
+implementation_executed = false
 ```
 
-仕様、テスト、ログ、成果物、引き継ぎで同じ識別子を使い、情報の取り違えを防ぎます。
+既知問題が残っていても、それを消したふりをせず、human release decisionへ渡します。
 
-## 実行前確認
+## 9. FREEZER / Obsidian / Knowledge Bridge
 
-RTSへ接続する場合、実装または公開前に次を確認します。
+RTSは既存知識を毎回すべて巨大文脈として読み直すのではなく、関係する知識を候補として引き出し、設計やroutingへ接続します。
 
-- 仕様が確定しているか
-- 公開禁止情報が含まれていないか
-- 最低成功条件があるか
-- テスト方法が定義されているか
-- 最終承認者が明確か
-- 取り消し・停止方法があるか
+完了した仕様・判断は凍結し、必要な時だけ再利用します。
 
-## 実行後に戻す情報
+現時点での境界:
 
-- 実際に動いた範囲
-- 動かなかった範囲
-- 使用した環境
-- エラーと修正内容
-- 本番未確認事項
-- 公開したURL
-- 次回の改善候補
+- full Obsidian rewriteは行わない
+- Knowledge Bridgeは自動修復権限を持たない
+- common UIはreview surface
+- screenshot / sketchはadapter input
+- approval / implementation / releaseはhuman boundaryを越えない
 
-## RTSを使わない場合
+## 10. 限界開発との関係
 
-RTSは必須ではありません。使わない場合は、Markdown、Issue、チェックリストなどで同等の機能を用意します。
+RTSが高度化しても、限界開発を「RTSを作るプロジェクト」へ変えてはいけません。
 
-必要なのはツール名ではなく、次の役割です。
+RTSの価値は、スマホ1台で複数AI・複数案件を扱っても、
 
-- 仕様を固定する
-- 判断を残す
-- 実行前に確認する
-- 結果を記録する
-- 未確認を分離する
-- 次の担当へ渡す
+- 文脈を失わない
+- 古い実装を現実と誤認しない
+- 未確認を未確認のまま残す
+- 中断しても再開できる
+- 人間が最後の判断を持つ
 
-## 関連リンク
+状態を作ることにあります。
 
-- [RTS Repository](https://github.com/nobutakayamauchi/RTS)
-- [限界開発の構築手順](./build-guide.md)
-- [再現環境と前提条件](./reproduction-environment.md)
-- [ドキュメントセンター](./)
+## 11. 実装境界
+
+RTS側の最新仕様・テスト・completion recordを正本とし、本リポジトリでは限界開発から見た役割と運用原則を記録します。
+
+RTSの内部実装をこのリポジトリへ複製しないことで、二重正本化を避けます。
