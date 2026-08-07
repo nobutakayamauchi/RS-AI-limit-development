@@ -1,1 +1,107 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="スマホを司令塔にAI・GitHub・クラウドを接続し、UI実装開始時から自己更新型デバッグを行う限界開発の公式ページ。"><title>限界開発｜RS AI</title><style>:root{--bg:#080c11;--panel:#131b25;--ink:#f7f4ec;--muted:#aeb8c4;--gold:#ffc84a;--red:#ff635b;--line:#2d3947}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#1b2734,#080c11 42rem);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.75}.wrap{width:min(1050px,100%);margin:auto;padding:22px 15px 64px}.hero,.section{border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#17212cfa,#0b1118fa);padding:26px 22px;margin-bottom:16px}h1{font-size:clamp(2.6rem,10vw,5.5rem);line-height:1;margin:.15em 0}.kicker,.card strong{color:var(--gold);font-weight:900}.lead{font-size:1.18rem}.muted{color:var(--muted)}.grid{display:grid;gap:12px}.card{padding:17px;border:1px solid var(--line);border-radius:14px;background:#ffffff08}.card strong{display:block}.actions{display:grid;gap:10px;margin-top:18px}.btn{display:flex;justify-content:center;align-items:center;min-height:54px;border:2px solid var(--gold);border-radius:12px;text-decoration:none;font-weight:900;background:var(--gold);color:#17120a;padding:10px}.btn.alt{background:transparent;color:var(--gold)}.flow{display:grid;gap:8px}.step{padding:14px;border-left:5px solid var(--gold);background:#090f16;border-radius:9px}.stop{border-left:6px solid var(--red)}@media(min-width:720px){.grid.two,.actions{grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:repeat(5,1fr)}}</style></head><body><main class="wrap"><header class="hero"><p class="kicker">RS AI / LIMIT DEVELOPMENT</p><h1>限界開発</h1><p class="lead">スマホを司令塔に、AI・GitHub・クラウド実行環境を接続して、仕様・実装・デバッグ・公開までを一つの流れにする。</p><p class="muted">UIが完成してからテストするのではなく、最初の画面とボタンが生えた時点から、接続先・状態・破壊操作を記録して回帰テストへ変換します。</p><div class="actions"><a class="btn" href="docs/debug-engine.md">デバッグエンジンを見る</a><a class="btn alt" href="docs/">仕様・再現資料を見る</a><a class="btn alt" href="https://github.com/nobutakayamauchi/RS-AI-limit-development/pull/6">開発中のPRを見る</a><a class="btn alt" href="https://github.com/nobutakayamauchi/RTS">RTSを見る</a></div></header><section class="section"><h2>今回追加した中核</h2><div class="grid two"><div class="card"><strong>自己更新型デバッグ</strong>会話や不具合報告から、通常操作・誤操作・破壊操作・復帰試験を分類し、再現テストと共通ナレッジへ変換。</div><div class="card"><strong>視覚ナビゲーションマップ</strong>各画面のスクリーンショットとボタン接続先を線で可視化。期待先と実測先の違いを即座に発見。</div><div class="card"><strong>全体図＋画面別図</strong>線が密集したら一枚絵での判定をやめ、起点画面ごとの複数マップへ自動分割。</div><div class="card"><strong>リリースゲート</strong>自動テスト後、人間にしか判断できない押しやすさ・理解・ストレス・映像音声の自然さをテスト。</div></div></section><section class="section"><h2>標準フロー</h2><div class="flow"><div class="step"><b>聞く</b><br>悩みと安全範囲</div><div class="step"><b>切る</b><br>最低成功条件</div><div class="step"><b>作る</b><br>専用ブランチ</div><div class="step"><b>壊す</b><br>自動・実機テスト</div><div class="step"><b>残す</b><br>公開・回帰・知識化</div></div></section><section class="section"><h2>UI開始時点から発火</h2><p><code>UI_BOOTSTRAP → SCREEN_CAPTURE → INTERACTION_DISCOVERY → REPRODUCTION → REGRESSION → RELEASE_GATE → KNOWLEDGE_PROMOTION</code></p><p class="muted">画面名だけでなく、編集中・処理中・エラー後・復帰後を別状態として管理します。</p><a class="btn" href="templates/ui-debug-integration-template.md">UI接続テンプレートを開く</a></section><section class="section stop"><h2>公開を止める条件</h2><p>操作不能、進行不能、データ消失、復元不能、誤完了、二重実行、重大な接続不一致、プレビューと最終成果物の重大差異が残る場合は公開しません。</p></section><section class="section"><h2>入口</h2><div class="grid two"><a class="card" href="docs/specification.md"><strong>限界開発 仕様書</strong><span class="muted">標準工程とリリース条件</span></a><a class="card" href="docs/build-guide.md"><strong>構築手順</strong><span class="muted">UI開始からデバッグを接続する手順</span></a><a class="card" href="tools/debug-engine/"><strong>デバッグエンジン実装</strong><span class="muted">分類・ゲート・ナレッジ</span></a><a class="card" href="tools/debug-engine/visual-map/"><strong>視覚マップ実装</strong><span class="muted">全体図と画面別図</span></a></div></section><footer class="muted">RS AI / 山内 延天 — 壊し方を知識に変える。</footer></main></body></html>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#09090b">
+<title>限界開発 | スマホ1台、AIと根性で生活をぶん回す社会実験</title>
+<meta name="description" content="スマートフォン1台しか持たず、精神・肉体・金銭・時間・生活上の問題を抱え、プログラム素人である人間が、AIと根性だけで生活をぶん回す仕組みを作る社会実験。">
+<style>
+:root{--bg:#09090b;--panel:#111116;--panel2:#17171d;--fg:#f6f5f0;--muted:#aaa8a0;--line:#2b2b32;--red:#ff4b3e;--green:#63e68b;--amber:#ffc45b;--cyan:#74d8ff;--max:1120px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic UI","Noto Sans JP",sans-serif;line-height:1.8}a{color:inherit}.wrap{width:min(var(--max),calc(100% - 34px));margin:auto}.nav{position:sticky;top:0;z-index:20;background:rgba(9,9,11,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}.nav .wrap{display:flex;justify-content:space-between;align-items:center;gap:18px;min-height:58px}.brand{font-weight:900;letter-spacing:.08em}.navlinks{display:flex;gap:16px;font-size:13px;color:var(--muted)}.navlinks a{text-decoration:none}.hero{padding:54px 0 30px}.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:center}.eyebrow{font-size:12px;letter-spacing:.18em;color:var(--red);font-weight:800}.hero h1{font-size:clamp(46px,10vw,104px);line-height:.92;margin:16px 0 24px;letter-spacing:-.06em}.hero h1 span{display:block;color:var(--red)}.lead{font-size:clamp(17px,2.3vw,23px);font-weight:800;line-height:1.65}.hero p{color:#d3d1ca}.hero-img{border:1px solid var(--line);background:#111;border-radius:22px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.45)}.hero-img img{display:block;width:100%;height:auto}.quote{margin:28px 0 0;padding:18px 20px;border-left:4px solid var(--red);background:linear-gradient(90deg,rgba(255,75,62,.12),transparent);font-size:18px;font-weight:900}.buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}.btn{display:inline-block;padding:12px 16px;border:1px solid var(--line);border-radius:11px;text-decoration:none;font-weight:800;background:var(--panel)}.btn.primary{background:var(--fg);color:#111;border-color:var(--fg)}section{padding:68px 0;border-top:1px solid var(--line)}h2{font-size:clamp(29px,5vw,52px);line-height:1.15;margin:0 0 16px;letter-spacing:-.035em}.sub{color:var(--muted);max-width:800px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}.card h3{margin:0 0 8px;font-size:18px}.card p{margin:0;color:#c6c4bd;font-size:14px}.num{font-size:12px;font-weight:900;color:var(--red);letter-spacing:.12em}.definition{font-size:clamp(22px,4vw,39px);font-weight:900;line-height:1.55;max-width:980px}.definition strong{color:var(--red)}.flow{margin-top:26px;padding:20px;border:1px solid var(--line);border-radius:16px;background:#0e0e12;overflow:auto}.flow pre{margin:0;color:#d9d8d1;font:600 14px/1.8 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre}.signal{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}.sig{padding:16px;border-radius:13px;border:1px solid var(--line);background:var(--panel)}.sig b{display:block;font-size:13px;margin-bottom:5px}.sig small{color:var(--muted)}.asbuilt b{color:var(--green)}.broken b{color:var(--red)}.stale b{color:var(--amber)}.unobs b{color:var(--cyan)}.rule{font:800 clamp(20px,4vw,35px)/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;margin:24px 0;padding:22px;border:1px solid #444;border-radius:15px;background:#0d0d10}.rule em{color:var(--green);font-style:normal}.timeline{display:grid;gap:10px;margin-top:26px}.step{display:grid;grid-template-columns:54px 1fr;gap:14px;align-items:start}.step .n{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--red);color:#fff;font-weight:900}.step h3{margin:2px 0}.step p{margin:0;color:var(--muted)}.notice{padding:22px;border-radius:16px;border:1px solid #5b4d25;background:#17140c}.notice strong{color:var(--amber)}.links{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:24px}.linkcard{padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--panel);text-decoration:none}.linkcard b{display:block}.linkcard span{color:var(--muted);font-size:13px}.footer{padding:48px 0 90px;color:var(--muted);font-size:13px}.tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:5px 9px;margin:3px;font-size:11px;color:#cac8c0}@media(max-width:800px){.hero-grid{grid-template-columns:1fr}.hero-img{order:-1}.grid{grid-template-columns:1fr}.signal{grid-template-columns:1fr 1fr}.links{grid-template-columns:1fr}.navlinks{display:none}.hero{padding-top:24px}.wrap{width:min(var(--max),calc(100% - 24px))}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="wrap"><div class="brand">限界開発 / LIMIT DEVELOPMENT</div><div class="navlinks"><a href="#definition">定義</a><a href="#architecture">現在地</a><a href="#protocol">プロトコル</a><a href="docs/">Docs</a><a href="https://github.com/nobutakayamauchi/RS-AI-limit-development">GitHub</a></div></div></nav>
+
+<header class="hero"><div class="wrap hero-grid">
+<div>
+<div class="eyebrow">SOCIAL EXPERIMENT / SMARTPHONE-FIRST / EVIDENCE-FIRST</div>
+<h1>限界<span>開発</span></h1>
+<p class="lead">スマホ1台、AIと根性。<br>生活が詰まるたび、必要な仕組みをその場で生やす。</p>
+<p>これは「最強の開発環境を作る企画」ではありません。制約だらけの人間が、AIを生活インフラとして使い、生活・仕事・収入・生存をどう再構築できるかを記録する社会実験です。</p>
+<div class="quote">限界は完成条件ではなく、開始条件。</div>
+<div class="buttons"><a class="btn primary" href="#definition">限界開発とは</a><a class="btn" href="docs/current-development-architecture.md">現在の開発環境</a><a class="btn" href="docs/">記録を読む</a></div>
+</div>
+<div class="hero-img"><img src="E51A0A69-BF80-4F3C-B8AA-76340F8F0DBF.png" alt="限界開発 キービジュアル"></div>
+</div></header>
+
+<section id="definition"><div class="wrap">
+<div class="eyebrow">DEFINITION — FIXED</div>
+<h2>定義は変えない。</h2>
+<p class="definition">限界開発とは、<strong>スマートフォン1台しか持たず、精神・肉体・金銭・時間・生活上の問題を抱え、プログラム素人である人間が、AIと根性だけで生活をぶん回す仕組みを作る社会実験</strong>です。</p>
+<p class="sub">RTSも、Vlog Wizardも、デバッグエンジンも、Obsidianも主役ではありません。必要になったから生えた生命維持設備です。環境が巨大化しても、主語は「限界状態の人間が生活を回せるか」のままです。</p>
+</div></section>
+
+<section><div class="wrap">
+<div class="eyebrow">STARTING CONDITIONS</div><h2>普通なら「準備してから始める」条件で、始める。</h2>
+<div class="grid">
+<div class="card"><div class="num">01 / DEVICE</div><h3>実質スマホ1台</h3><p>PC、高額機材、強いローカルマシンを前提にしない。スマホは司令塔としてAI、GitHub、SSH、クラウドを動かす。</p></div>
+<div class="card"><div class="num">02 / HUMAN</div><h3>人間側が安定しているとは限らない</h3><p>体力、集中、時間、生活状況は揺れる。だから「中断しない」より「いつでも再開できる」を設計する。</p></div>
+<div class="card"><div class="num">03 / MONEY</div><h3>金で殴らない</h3><p>無料枠、弱いサーバー、既存サービスを組み合わせる。制約がアーキテクチャを育てる。</p></div>
+<div class="card"><div class="num">04 / SKILL</div><h3>素人から始める</h3><p>コード暗記より、AIと仕様・設計・検証を往復し、必要な技術を必要な時に獲得する。</p></div>
+<div class="card"><div class="num">05 / REALITY</div><h3>実生活でDogfoodする</h3><p>デモが動くだけでは足りない。実際のVlog、実際のサーバー、実際の操作で壊して観測する。</p></div>
+<div class="card"><div class="num">06 / TRUTH</div><h3>未確認を成功にしない</h3><p>確認済み・故障・古い・未確認を分ける。都合のいい完成物語を作らない。</p></div>
+</div></div></section>
+
+<section id="architecture"><div class="wrap">
+<div class="eyebrow">2026-08 / CURRENT ARCHITECTURE</div><h2>開発環境は、コード生成から「文脈と証拠の設計」へ進化した。</h2>
+<p class="sub">AIへ全部読ませるほど賢くなるわけではない。必要な文脈だけを正しい場所へ送り、実世界で確認し、人間が判断境界を持つ。そのための基盤がRTSを中心に生えています。</p>
+<div class="flow"><pre>人間 / スマートフォン
+        ↓
+困りごと・アイデア
+        ↓
+Context Routing ── FREEZER / Obsidian knowledge
+        ↓
+Human Routing Decision
+        ↓
+Design Bundle
+        ↓
+Real Project / Real Server
+        ↓
+Deployment Identity Gate
+ service / working directory / entrypoint / routes / revision
+        ↓
+Observation
+ AS_BUILT / BROKEN / STALE / UNOBSERVED
+        ↓
+Debug Link → Lifecycle → City Release
+        ↓
+Human Release Decision</pre></div>
+<div class="rule"><em>Deployment Identity</em> MUST be established before runtime implementation classification.<br><br>Code existence != runtime evidence.</div>
+<p class="sub">実dogfoodで、古いソースツリーを「いま動いている実装」と誤認しかけたことから追加された不変条件です。コードがあることと、今それが動いていることは別。</p>
+<div class="signal"><div class="sig asbuilt"><b>AS_BUILT</b><small>実装・稼働を証拠で確認</small></div><div class="sig broken"><b>BROKEN</b><small>対象runtimeで故障を確認</small></div><div class="sig stale"><b>STALE</b><small>古い・非稼働・重複</small></div><div class="sig unobs"><b>UNOBSERVED</b><small>まだ観測していない</small></div></div>
+</div></section>
+
+<section><div class="wrap">
+<div class="eyebrow">WHAT GREW OUT OF IT</div><h2>必要に迫られて、インフラが生えた。</h2>
+<div class="grid">
+<div class="card"><h3>RTS</h3><p>仕様、ルーティング、実プロジェクト観測、Lifecycle、Release判断を分離する共通基盤。AIが人間判断を勝手に越えない。</p></div>
+<div class="card"><h3>Knowledge Bridge / FREEZER</h3><p>完了した知識を凍結し、必要な時だけ文脈へ戻す。Obsidianは巨大な一枚岩ではなく記憶層として使う。</p></div>
+<div class="card"><h3>Vlog Wizard</h3><p>「撮る、並べる、喋る、確認する、出す」をスマホ中心で一本につなぐために生えた制作基盤。</p></div>
+<div class="card"><h3>限界開発式デバッグエンジン</h3><p>一度踏んだ不具合を、再現シナリオ・回帰テスト・知識へ変換し、人間の再体当たりを減らす。</p></div>
+<div class="card"><h3>視覚ナビゲーションマップ</h3><p>画面・操作・遷移を可視化する。ただし画面やコードの存在をruntime realityとは混同しない。</p></div>
+<div class="card"><h3>GitHub Pages / Docs</h3><p>コードだけでなく、定義、失敗、判断、完成記録、再開地点を公開可能な形で残す。</p></div>
+</div></div></section>
+
+<section id="protocol"><div class="wrap">
+<div class="eyebrow">PROTOCOL</div><h2>困った瞬間を、次の人が再利用できる知識へ変える。</h2>
+<div class="timeline">
+<div class="step"><div class="n">1</div><div><h3>困る</h3><p>生活・仕事・制作・運用の詰まりを、そのまま観測する。</p></div></div>
+<div class="step"><div class="n">2</div><div><h3>AIと分解する</h3><p>事実、感情、制約、判断、作業を分ける。</p></div></div>
+<div class="step"><div class="n">3</div><div><h3>文脈を切る</h3><p>全部を投げず、今回必要な情報だけを正しいAI・正しいプロジェクトへ送る。</p></div></div>
+<div class="step"><div class="n">4</div><div><h3>最小の仕組みにする</h3><p>人生を一気に直さず、今日の詰まりを一つ減らす。</p></div></div>
+<div class="step"><div class="n">5</div><div><h3>実プロジェクトで使う</h3><p>デモではなく実物でDogfoodし、Deployment Identityを確定してから観測する。</p></div></div>
+<div class="step"><div class="n">6</div><div><h3>失敗を証拠へ変える</h3><p>AS_BUILT / BROKEN / STALE / UNOBSERVED を分離し、テストと記録へ戻す。</p></div></div>
+<div class="step"><div class="n">7</div><div><h3>凍結して再開可能にする</h3><p>完成した判断をFREEZERへ、次回必要な差分だけを残す。</p></div></div>
+<div class="step"><div class="n">8</div><div><h3>生活へ戻す</h3><p>開発を仕事、収入、時間、生存へ接続する。</p></div></div>
+</div></div></section>
+
+<section><div class="wrap"><div class="eyebrow">HUMAN BOUNDARY</div><h2>AIは強くする。でも、勝手には決めさせない。</h2><p class="sub">Observationは修復命令ではありません。提案、証拠、判断、実装、Releaseを分け、routing / approval / implementation authorization / release decision は人間側に残します。</p><div class="notice"><strong>やらないこと:</strong> 自動修復を成功扱いする、未観測を完成扱いする、古いコードをruntime realityとして断定する、限界状態や苦痛を美化する。</div></div></section>
+
+<section><div class="wrap"><div class="eyebrow">SUCCESS</div><h2>「完成した」より、「また続きから始められる」。</h2><div class="grid"><div class="card"><h3>作業が一つ減る</h3><p>小さくても生活負荷が減れば成果。</p></div><div class="card"><h3>失敗を二度踏まない</h3><p>不具合が再現可能なテスト・知識になる。</p></div><div class="card"><h3>未確認を残せる</h3><p>分からないものを分かったふりにしない。</p></div><div class="card"><h3>再開できる</h3><p>中断しても現在地と次の一手が残る。</p></div><div class="card"><h3>他人が追試できる</h3><p>社会実験として再現・反証可能にする。</p></div><div class="card"><h3>生活へ接続する</h3><p>仕事・収入・生存へ戻らなければインフラだけが太る。</p></div></div></div></section>
+
+<section><div class="wrap"><div class="eyebrow">READ / VERIFY / REUSE</div><h2>現在の記録</h2><div class="links"><a class="linkcard" href="docs/current-development-architecture.md"><b>現行開発アーキテクチャ</b><span>RTS、文脈設計、Deployment Identity、Evidence loop</span></a><a class="linkcard" href="docs/specification.md"><b>限界開発 仕様書</b><span>変えない定義と実験境界</span></a><a class="linkcard" href="docs/reproduction-environment.md"><b>再現環境</b><span>スマホ中心で同じ実験を追試する条件</span></a><a class="linkcard" href="docs/rts-integration.md"><b>RTSとの接続</b><span>IdeaからLifecycle / City Releaseまで</span></a><a class="linkcard" href="docs/debug-engine.md"><b>デバッグエンジン</b><span>失敗を回帰資産へ変える方法</span></a><a class="linkcard" href="SAFETY.md"><b>安全基準</b><span>限界を美化せず、停止判断を含めて設計する</span></a></div><div class="buttons"><a class="btn primary" href="https://github.com/nobutakayamauchi/RS-AI-limit-development">GitHub Repository</a><a class="btn" href="docs/">Document Center</a></div></div></section>
+
+<footer class="footer"><div class="wrap"><div><span class="tag">スマホ1台</span><span class="tag">AI</span><span class="tag">RTS</span><span class="tag">Evidence First</span><span class="tag">Context Design</span><span class="tag">Dogfooding</span><span class="tag">Human Decision</span></div><p>限界開発 — RS AI / 山内 延天</p><p>このサイトは完成品の宣伝ではなく、社会実験の現在地です。過去Episodeは当時の事実として保持し、現在の仕組みを後付けで「昔から使っていた」ことにはしません。</p></div></footer>
+</body></html>

@@ -1,59 +1,87 @@
-# UIデバッグ接続テンプレート
+# UI / デバッグ統合テンプレート
 
-## 基本情報
+## Target Identity
 
-- プロジェクト:
-- リポジトリ:
-- ブランチ:
-- UI実装開始日:
-- 対象端末・ブラウザ:
+- Project:
+- Request ID:
+- UI surface:
+- Branch / revision:
 
-## 画面・状態台帳
+## Deployment Identity
 
-| screen_id | 画面名 | 状態 | スクリーンショット | 実装済み | 備考 |
-|---|---|---|---|---|---|
-| top.ready | トップ | 操作可能 | debug/screenshots/top-ready.png | [ ] | |
+UIを「現行production」として評価する前に確認する。
 
-## 操作接続台帳
+- verified:
+- service / unit:
+- working directory:
+- entrypoint / module:
+- active route / served page:
+- deployed revision:
+- evidence:
 
-| action_id | 起点 | ボタン・操作 | 期待接続先 | 実測接続先 | 状態 |
-|---|---|---|---|---|---|
-| top.open-editor | top.ready | 編集を開く | editor.ready | 未確認 | unknown |
+> 静的HTMLが存在することと、現在その画面が配信されていることは別。
 
-状態は `confirmed` / `mismatch` / `unknown` / `blocked` を使用します。
+## Expected User Flow
 
-## UI実装開始ゲート
+```text
+Start
+  ↓
+[screen / action]
+  ↓
+[save / processing]
+  ↓
+[next screen]
+  ↓
+[completion / failure]
+```
 
-- [ ] 画面IDの命名規則を決めた
-- [ ] 初期画面のスクリーンショットを取得した
-- [ ] 全ボタンに action_id を付けた
-- [ ] 期待接続先を仕様として記録した
-- [ ] `navigation-map.json` を作成した
-- [ ] 全体マップを生成した
-- [ ] 接続が密集する場合、画面別マップを生成した
-- [ ] ログ・スクリーンショット・再現手順の保存先を作った
+## Observed Flow
 
-## 共通破壊操作
+- Start URL / route:
+- 操作:
+- 実際の遷移:
+- 完了表示:
+- 失敗表示:
+- 復帰導線:
 
-- [ ] 連打
-- [ ] 未選択で進行
-- [ ] 処理中に戻る
-- [ ] 別画面へ移動して戻る
-- [ ] 保存前に離脱
-- [ ] エラー後に再実行
-- [ ] 同じ工程を繰り返す
-- [ ] プレビュー後に最終出力
+## UI Inventory
 
-## 人間専用テスト
+| Surface | Active / stale / unknown | Evidence | Notes |
+|---|---|---|---|
+| | | | |
 
-| No. | 前提 | 操作 | 観察点 | 合格条件 | 結果 |
-|---:|---|---|---|---|---|
-| 1 | 初見 | 画面を開く | 次に押す場所 | 5秒以内に判断できる | 未実施 |
+## API Contract
 
-## リリース判定
+| UI action | Frontend request | Active backend route | Match |
+|---|---|---|---|
+| | | | yes / no / unobserved |
 
-- 自動テスト:
-- 視覚マップ:
-- 人間専用テスト:
-- 重大未解決:
-- 判定: `BLOCK_UNTIL_EXECUTED` / `PASS` / `FAIL`
+## Classification
+
+| Planned node | Status | Evidence | Reason |
+|---|---|---|---|
+| | AS_BUILT / BROKEN / STALE / UNOBSERVED | | |
+
+## Regression Targets
+
+- Navigation:
+- Save / write-out:
+- Status display:
+- Error handling:
+- Old UI reachability:
+- Long-running behavior:
+
+## Human Boundary
+
+- Observation recorded:
+- Repair proposal:
+- Repair authorized:
+- Release authorized:
+
+### Rules
+
+1. Code existence != runtime evidence.
+2. Deployment Identityを確定してからruntime classificationする。
+3. Observationは自動repair命令ではない。
+4. 到達できない旧UIはSTALE候補として扱い、現在runtimeのBROKENと混同しない。
+5. UNOBSERVEDを無理に埋めない。

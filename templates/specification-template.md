@@ -1,193 +1,127 @@
-# Codex実装仕様書
+# 限界開発 仕様テンプレート
 
-## 1. 企画上の位置づけ
+## 0. Identity
 
-- エピソード名：
-- 配信日：
-- 解決したい悩み：
-- 本番用か試作品か：試作品
+- Project:
+- Request / Idea ID:
+- Branch / revision:
+- Owner:
+- Date:
 
-## 2. 安全確認
+## 1. 困りごと
 
-- 公開範囲：
-- 匿名化：
-- 秘密情報なし：
-- 架空データへの置換：
-- 最終承認者：人間
+- 何が詰まっているか:
+- 誰が困っているか:
+- 今日直す必要があるか:
+- 生活・仕事への影響:
 
-## 3. 現在の作業
+## 2. 目的
 
-- 入力：
-- 操作手順：
-- 人間の判断：
-- 出力：
-- 一番つらい箇所：
+- Primary outcome:
+- 成功条件:
+- 非目的:
+- 今回作らないもの:
 
-## 4. 今回の範囲
+## 3. 制約
 
-### 最低成功条件
+- Smartphone-first制約:
+- 時間:
+- 金銭:
+- サーバー / 計算資源:
+- 既存システム:
+- 安全上の制約:
 
-> 
+## 4. Context Routing
 
-### 今回作るもの
+- Target project:
+- Target component:
+- Timing:
+- Related frozen knowledge:
+- 必要な既存仕様:
+- 今回読ませない文脈:
+- Missing context:
 
-1. 
-2. 
+## 5. Source of Truth
 
-### 今回作らないもの
+- 正式仕様:
+- 正式コード:
+- 現行branch:
+- 完了済み / FREEZER:
+- AI提案と区別すべき事実:
 
-- 
+## 6. Human Decision Boundary
 
-### 縮退順
+- Routing decision required: yes / no
+- Implementation authorization required: yes / no
+- Release decision required: yes / no
+- 破壊的変更の確認:
 
-1. 
-2. 
+## 7. Design
 
-## 5. 作業場所
+- Proposed architecture:
+- Existing boundary to reuse:
+- New boundary required:
+- Side effects:
+- Migration plan:
+- Observability:
+- Regression targets:
 
-- リポジトリ：
-- ブランチ：
-- 作成ファイル：
-- 変更ファイル：
-- 変更禁止範囲：
-- 自動commit／push／merge／公開：禁止
+## 8. Deployment Identity
 
-## 6. 技術構成
+runtime classificationを行う場合に記入する。
 
-- 実行環境：
-- 外部依存：
-- 外部通信：
-- 永続保存：
-- 対応端末：スマートフォン優先
+- verified: true / false
+- service / unit:
+- working directory:
+- entrypoint / loaded module:
+- active route / surface:
+- deployed revision:
+- evidence:
 
-## 7. 入出力
+> Deployment Identity MUST be established before runtime implementation classification.
 
-- 入力形式：
-- 必須項目：
-- 任意項目：
-- 出力形式：
-- 不正値：
+> Code existence != runtime evidence.
 
-## 8. 処理仕様
+## 9. Planned Nodes / Acceptance Criteria
 
-1. 
-2. 
-3. 
+| ID | Feature / Goal | Acceptance criteria | Evidence required |
+|---|---|---|---|
+| | | | |
 
-## 9. UI・状態設計
+## 10. Observation
 
-UIを実装する場合、画面だけでなく状態単位で定義する。
+各planned nodeを、実際に確認できた証拠だけで分類する。
 
-| screen_id | 画面名 | 状態 | 主要操作 | 備考 |
-|---|---|---|---|---|
-| top.ready | トップ | 操作可能 |  |  |
-| top.processing | トップ | 処理中 |  |  |
-| top.error | トップ | エラー |  |  |
+| Node | Status | Evidence | Reason |
+|---|---|---|---|
+| | AS_BUILT / BROKEN / STALE / UNOBSERVED | | |
 
-### 操作接続仕様
+## 11. Test
 
-| action_id | 起点 | ボタン・操作 | 期待接続先 | 禁止条件 |
-|---|---|---|---|---|
-|  |  |  |  |  |
+- Unit:
+- Integration:
+- Regression:
+- Real-project dogfood:
+- Long-running / device-specific:
+- 未実施テスト:
 
-### 状態表示
+## 12. Release
 
-- 初期化中：
-- 操作可能：
-- 処理中：
-- 成功：
-- 失敗：
-- 復帰後：
+- Known issues:
+- STALE:
+- UNOBSERVED:
+- Blockers:
+- Human release decision:
+- implementation_executed:
 
-## 10. UI_BOOTSTRAP必須工程
+## 13. Completion Record
 
-最初の画面または操作要素が実装された時点で、次を実施する。
+- 完了したこと:
+- 未完了:
+- 次にやらないこと:
+- 再開地点:
+- 次の正当な一手:
 
-- [ ] 画面・状態IDを付与
-- [ ] action IDを付与
-- [ ] 期待接続先を記録
-- [ ] スクリーンショット保存先を作成
-- [ ] `navigation-map.json` を作成
-- [ ] 全体マップを生成
-- [ ] 接続密度が高い場合は画面別マップを生成
-- [ ] ログ、証拠、再現シナリオ、人間テストの保存先を作成
+### 原則
 
-## 11. エラー処理
-
-- 入力なし：
-- 必須不足：
-- 不正値：
-- 通信失敗：
-- 処理失敗：
-- 再操作可能性：維持する
-- データ保持境界：
-
-## 12. アクセシビリティ
-
-- 色だけで状態を示さない
-- 明確な日本語ラベルを付ける
-- 画面幅320px程度で横にはみ出さない
-- ボタンは原則44px以上
-- 状態更新を文字でも表示する
-
-## 13. 自動テスト
-
-### 正常系
-
-- 主要導線：
-- 期待結果：
-
-### 共通破壊操作
-
-- [ ] 連打
-- [ ] 未選択で進行
-- [ ] 処理中に戻る
-- [ ] 別画面へ移動して戻る
-- [ ] 保存前に離脱
-- [ ] エラー後に再実行
-- [ ] 同じ工程を反復
-- [ ] プレビュー後に最終出力
-
-### 接続監査
-
-- 期待接続先と実測接続先を比較する
-- mismatch / blocked / unknown を残したまま公開しない
-
-## 14. 人間専用テスト
-
-| No. | 前提 | 操作 | 観察点 | 合格条件 |
-|---:|---|---|---|---|
-| 1 | 初見 | 画面を開く | 次の操作 | 5秒以内に判断できる |
-| 2 | 実機 | 主要導線 | 押しやすさ | 誤操作なく完走できる |
-| 3 | 反復 | 同工程を複数回 | ストレス | 毎回強い苦痛がない |
-
-映像・画像・音声を扱う場合は、自然さ、同期、音量、最終成果物の見苦しさを人間が確認する。
-
-## 15. リリースゲート
-
-次が残る場合は公開を停止する。
-
-- 操作不能・進行不能
-- データ消失・復元不能
-- 誤完了・二重実行
-- 重大な接続不一致
-- 表示と内部状態の重大不一致
-- プレビューと最終成果物の重大差異
-- 人間専用テスト未実施
-
-## 16. 最終報告
-
-- 作成したもの
-- 利用者ができること
-- 実施した自動テスト
-- 視覚マップ監査結果
-- 人間専用テスト結果
-- 確認済み
-- 未確認
-- 回帰テスト化した不具合
-- 共通ナレッジ昇格候補
-- 次の一手
-
-## 17. 最終実行命令
-
-この仕様書の範囲だけで実装すること。未確認事項を勝手に補完せず、実行していない内容を完成または確認済みと表現しないこと。UI実装が始まった時点でデバッグエンジンを接続し、リリース前に自動テスト、視覚接続監査、人間専用テストを必ず通すこと。
+Observationは修復命令ではない。未確認を成功扱いしない。AI提案と人間承認を分ける。歴史記録へ現在仕様を後付けしない。

@@ -1,111 +1,84 @@
-# テスト報告書
+# 限界開発 テストレポートテンプレート
 
-## 基本情報
+## Identity
 
-- エピソード：
-- 対象：
-- ブランチ：
-- 実施日：
-- 実施者：
+- Project:
+- Request / Idea ID:
+- Branch / revision:
+- Date:
+- Tester:
 
-## リリース判定
+## Deployment Identity
 
-- 自動テスト：未実施 / 成功 / 失敗
-- 視覚マップ監査：未実施 / 成功 / 失敗
-- 人間専用テスト：未実施 / 成功 / 失敗
-- 総合判定：`BLOCK_UNTIL_EXECUTED` / `PASS` / `FAIL`
+runtimeを評価する場合は先に確定する。
 
-## 自動テスト
+- verified:
+- service / unit:
+- working directory:
+- entrypoint / module:
+- active surface / routes:
+- deployed revision:
+- evidence:
 
-| No. | テスト名 | 目的 | 条件 | 期待結果 | 実結果 | 判定 | 証拠 |
-|---:|---|---|---|---|---|---|---|
-| 1 | 通常導線 | 主要操作を完走する |  |  |  | 未実施 |  |
-| 2 | 連打 | 二重実行を防ぐ |  |  |  | 未実施 |  |
-| 3 | 離脱・復帰 | 状態を保持する |  |  |  | 未実施 |  |
-| 4 | 保存・復元 | データ消失を防ぐ |  |  |  | 未実施 |  |
-| 5 | エラー再実行 | 安全に復旧する |  |  |  | 未実施 |  |
+> Code existence != runtime evidence.
 
-## 視覚ナビゲーション監査
+## Test Scope
 
-- 全体マップ：
-- 画面別マップ：
-- 未確認接続：
-- 接続不一致：
-- 操作不能：
-- 孤立画面：
-- 戻り道欠如：
+- 今回確認するもの:
+- 今回確認しないもの:
+- Planned nodes:
+- Regression targets:
 
-| action_id | 起点 | 操作 | 期待先 | 実測先 | 状態 | 判定 |
-|---|---|---|---|---|---|---|
-|  |  |  |  |  | unknown | 未実施 |
+## Environment
 
-## 人間専用テスト
+- Smartphone / client:
+- Server / runtime:
+- Browser:
+- Network:
+- Relevant configuration:
 
-| No. | 前提 | 操作 | 観察点 | 合格条件 | 結果 |
-|---:|---|---|---|---|---|
-| 1 | 初見 | 画面を開く | 次の操作 | 5秒以内に判断できる | 未実施 |
-| 2 | 実機 | 主要導線を操作 | 押しやすさ | 誤操作なく完走できる | 未実施 |
-| 3 | 実機 | 同じ工程を反復 | ストレス | 毎回強い苦痛がない | 未実施 |
+## Results
 
-## 不具合・差異
+| Node / Case | Expected | Actual | Status | Evidence |
+|---|---|---|---|---|
+| | | | AS_BUILT / BROKEN / STALE / UNOBSERVED | |
 
-### 発生内容
+## Failure Record
 
-### 操作意図
+- Symptom:
+- Reproduction steps:
+- Runtime evidence:
+- Log / screenshot / route evidence:
+- Cause confirmed / candidate:
+- Human decision:
+- Repair authorized: yes / no
 
-- [ ] 通常操作
-- [ ] 偶発誤操作
-- [ ] 意図的破壊操作
-- [ ] 復帰試験
-- [ ] ストレス試験
+## Regression
 
-### 再現手順
+- Added / updated test:
+- Result:
+- Existing regression suite result:
+- Remaining unobserved area:
 
-1. 
+## Summary
 
-### 期待結果
+- AS_BUILT:
+- BROKEN:
+- STALE:
+- UNOBSERVED:
+- Blockers:
+- Known issues:
 
-### 実結果
+## Release Boundary
 
-### 証拠
+- Human decision required:
+- Implementation executed:
+- Release executed:
+- Next action:
 
-- スクリーンショット：
-- ログ：
-- 通信：
-- 操作履歴：
+### Rules
 
-### 原因
-
-- 確認済み：
-- 推測：
-
-### 修正と回帰テスト
-
-- 修正：
-- 再実行結果：
-- 共通ナレッジ昇格候補：
-
-## 重大停止条件
-
-- [ ] 操作不能・進行不能なし
-- [ ] データ消失・復元不能なし
-- [ ] 誤完了・二重実行なし
-- [ ] 重大な接続不一致なし
-- [ ] 重大な状態不一致なし
-- [ ] プレビューと最終成果物の重大差異なし
-
-## 確認済み
-
-- 
-
-## 未確認
-
-- 本番データ
-- 大量データ
-- 別ブラウザ
-- 別端末
-- 実際の業務ルール
-
-## 結論
-
-> 
+- 未実施テストはPASSにしない。
+- 非稼働コードの不整合を現在runtimeのBROKENとして扱わない。
+- ObservationとRepair Authorizationを分ける。
+- 実測値とAI推測を分ける。
