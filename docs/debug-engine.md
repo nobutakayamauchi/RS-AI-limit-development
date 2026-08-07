@@ -1,69 +1,162 @@
 # 限界開発式デバッグエンジン
 
-限界開発では、UI実装が始まった時点からデバッグエンジンを接続します。完成直前だけに試すのではなく、画面・状態・ボタンが増えるたびに操作経路と破壊操作を記録し、再現テストへ変換します。
+更新: 2026-08-07
 
-## 発火タイミング
+## 位置付け
 
-1. `UI_BOOTSTRAP` — 最初の画面と操作要素が実装された時
-2. `SCREEN_CAPTURE` — 新しい画面または状態を取得した時
-3. `INTERACTION_DISCOVERY` — ボタンの期待接続先と実測接続先を確認した時
-4. `REPORT_INGEST` — 不具合報告や会話ログを受け取った時
-5. `REPRODUCTION` — 修正前に再現条件を固定する時
-6. `REGRESSION` — 修正後に同じ操作を再実行する時
-7. `MAP_COMPLEXITY_GATE` — 線の密集を検出し画面別マップへ分割する時
-8. `RELEASE_GATE` — 公開前に自動試験と人間試験を通す時
-9. `KNOWLEDGE_PROMOTION` — 同型の欠陥を共通ナレッジへ昇格する時
+デバッグエンジンは限界開発の主役ではありません。
 
-## UI実装開始時に用意するもの
+スマホ中心の開発では、一度踏んだ不具合を何度も人間が再操作して確認すること自体が大きな負荷になります。その負荷を減らすため、操作・症状・証拠・修正・回帰を再利用可能な形へ変換するために生えた生命維持設備です。
+
+## 目的
+
+不具合を次の形へ変えることを目的とします。
 
 ```text
-project/
-├─ debug/
-│  ├─ navigation-map.json
-│  ├─ screenshots/
-│  ├─ scenarios/
-│  ├─ evidence/
-│  └─ human-tests.md
-└─ application files
+人間が踏んだ問題
+    ↓
+再現条件
+    ↓
+対象runtimeのIdentity
+    ↓
+観測Evidence
+    ↓
+原因候補 / 修正
+    ↓
+回帰テスト
+    ↓
+再開可能な知識
 ```
 
-各画面は画面名だけでなく、`編集中`、`処理中`、`エラー後`、`復帰後`のような状態単位でIDを付けます。各操作には、起点、ボタン名、期待接続先、実測接続先、判定を保存します。
+「一度直った」だけで終わらせず、同じ問題に再遭遇した時の人間負荷を下げます。
 
-## 視覚マップ
+## Evidence First
 
-- 全体マップ: システム全体、孤立画面、戻り道、主要導線を見る
-- 画面別マップ: 1画面の各ボタンが直接どこへつながるかを見る
+デバッグエンジンは、コードを見つけただけで故障と判定しません。
 
-接続総数8本以上、単一画面の接続3本以上、推定交差2か所以上のいずれかで画面別マップを自動生成します。全体図が読みにくい場合、その図だけで合否判定してはいけません。
+実観測は次を区別します。
 
-## 自動テストへ回すもの
+- `AS_BUILT`
+- `BROKEN`
+- `STALE`
+- `UNOBSERVED`
 
-- 連打と二重実行
-- 未選択状態での進行
-- 処理中の離脱と復帰
-- 保存前離脱と復元
-- エラー後の再実行
-- 表示状態と内部状態の不一致
-- プレビューと最終成果物の差異
-- ボタンの期待接続先と実測接続先の不一致
+とくに `BROKEN` は、対象runtimeで壊れている証拠がある場合に使います。
 
-## 人間に残すもの
+## Deployment Identity
 
-- 初見で次の操作が分かるか
-- 押しやすく誤操作しにくいか
-- 状態表示が直感と一致するか
-- 毎回強いストレスにならないか
-- 動画、画像、音声の自然さ
-- 見た目や間の違和感
+V1 dogfoodで、非稼働の古いコードをruntime realityと誤認しかける問題が見つかりました。
 
-人間試験も「確認してください」ではなく、前提、操作、観察点、合否条件を持つテストプログラムとして出力します。
+そのため現在は、runtime implementation classificationより先にDeployment Identityを確認します。
 
-## リリース条件
+確認候補:
 
-重大な接続不一致、操作不能、進行不能、データ消失、誤完了、復旧不能が一つでも残る場合は公開を停止します。自動テスト合格後、人間専用テストを実施し、結果と未確認事項をテスト報告書へ残して初めて公開可能とします。
+- service / unit
+- working directory
+- entrypoint / loaded module
+- active route / surface
+- revision / commit
+- runtime evidence
 
-## 実装
+原則:
 
-- [デバッグエンジン本体](../tools/debug-engine/)
-- [視覚ナビゲーションマップ](../tools/debug-engine/visual-map/)
-- [UI接続テンプレート](../templates/ui-debug-integration-template.md)
+> **Code existence != runtime evidence.**
+
+古いファイルに不整合があっても、現在deployされていないなら「現在のruntimeがBROKEN」という証拠にはなりません。
+
+## 観測と修復を分ける
+
+Observationは証拠です。
+
+デバッグエンジンが問題を発見しても、それだけで自動repair・自動approval・自動releaseを行うことを前提にしません。
+
+```text
+Observation
+  ≠ Repair Authorization
+  ≠ Release Authorization
+```
+
+修正候補を作る場合も、人間判断境界を別に持ちます。
+
+## 視覚ナビゲーションマップ
+
+視覚マップは、画面・操作・遷移・到達可能性を人間が把握しやすくする補助層です。
+
+有効な用途:
+
+- 画面構成確認
+- 導線の重複確認
+- 操作起点の整理
+- expected pathの可視化
+- 回帰対象の発見
+
+ただし、静的HTMLや古い画面ファイルが存在するだけで「今のproduction UI」とは断定しません。Deployment Identity / active surfaceを先に確認します。
+
+## 再現シナリオ
+
+最低限、次を残します。
+
+- 対象project
+- Deployment Identity
+- 事前状態
+- 操作
+- 期待結果
+- 実結果
+- screenshot / log / route / code evidence
+- status classification
+- 修正revision
+- regression test
+
+## スマホ中心での価値
+
+スマホ1台では、長いログを何度も探したり、複数の画面を往復したりするコストが大きいです。
+
+そのためデバッグエンジンは、
+
+- 人間操作の再現回数を減らす
+- どこまで確認したかを保存する
+- AIへ渡す文脈を小さくする
+- 次のチャット・次の日へ引き継ぐ
+
+ことを優先します。
+
+## RTSとの接続
+
+RTS / Knowledge Bridgeを使う場合、デバッグ観測はDesign Bundleのplanned nodesへ接続され、Lifecycle判断の材料になります。
+
+```text
+Design Bundle
+    +
+Verified Deployment Identity
+    +
+Observation
+    ↓
+Debug Link
+    ↓
+Lifecycle
+    ↓
+City Release / Human Decision
+```
+
+デバッグエンジン単体がCity Releaseを決めるわけではありません。
+
+## 完成条件
+
+デバッグエンジンの価値は機能数ではなく、次で判断します。
+
+- 同じバグを人間が何度も踏まなくてよい
+- 古いコードと実稼働を区別できる
+- 証拠と推測を区別できる
+- regression testへ変換できる
+- 中断後もどこまで調べたか分かる
+- 修復権限と観測権限が混ざらない
+
+## 非目的
+
+- あらゆる不具合の完全自動修復
+- AIによる無条件の自動承認
+- productionへの無確認適用
+- 静的コード存在だけからのruntime断定
+- デバッグ基盤を育てること自体の目的化
+
+限界開発では、デバッグエンジンも生活を回すための道具であり、社会実験そのものではありません。
