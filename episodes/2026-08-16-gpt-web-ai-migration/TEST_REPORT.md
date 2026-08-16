@@ -14,7 +14,7 @@ A local copy matching the published prototype code was compiled and tested befor
 Result:
 
 ```text
-5 passed
+7 passed
 ```
 
 Verified tests:
@@ -27,17 +27,21 @@ Verified tests:
 - [x] input length boundary enforced
 - [x] conversation history boundary enforced
 - [x] duplicate app slug rejected at registry load
+- [x] successful model-call path receives server-side API key/model/Instructions and `store=false`
+- [x] Knowledge-enabled path receives vector-store ID from server environment, not end-user input
 
-The first attempted local test run failed because the OpenAI SDK was not installed in the isolated execution environment. The prototype was then changed so the SDK is imported only inside the live model-call path. This lets configuration/security-boundary tests run without provider/network dependencies. The environment could not install the SDK because outbound package-network access was unavailable, so no live API assertion is claimed.
+The first attempted local test run failed because the OpenAI SDK was not installed in the isolated execution environment. The prototype was then changed so the SDK is imported only inside the live model-call path. This lets configuration/security-boundary tests run without provider/network dependencies. The environment could not install the SDK because outbound package-network access was unavailable.
+
+The model-call and Knowledge-binding success paths were then tested with a fake OpenAI client. This verifies request construction and server-side trust boundaries, but it does **not** prove live provider compatibility or live retrieval behavior.
 
 ## Functional suite still pending
 
 - [ ] browser/static bundle inspection confirms no API key path
 - [ ] `/api/chat` empty input behavior recorded
-- [ ] OpenAI response is returned through backend
-- [ ] upstream API failure becomes user-visible bounded error
+- [ ] live OpenAI response is returned through backend
+- [ ] live upstream API failure becomes user-visible bounded error
 - [ ] Knowledge-disabled app does not request retrieval in a live provider call
-- [ ] Knowledge-enabled app binds configured vector store
+- [ ] Knowledge-enabled app performs live file search
 - [ ] retrieval failure does not become fabricated certainty
 
 ## Mobile suite
