@@ -10,8 +10,8 @@ Branch: `agent/gpt-web-ai-dogfood`
 | Gate | State | Evidence |
 |---|---|---|
 | G0 Scope Frozen | PASS | `SPEC.md` |
-| G1 Local Functional | PARTIAL | prototype compiles + 5 boundary tests pass; live model call not run |
-| G2 Knowledge Functional | NOT_RUN | vector-store binding not dogfooded |
+| G1 Local Functional | PARTIAL | prototype compiles + 7 provider-independent/boundary tests pass; live model call not run |
+| G2 Knowledge Functional | PARTIAL | server-side vector-store request construction tested with fake provider; live retrieval not run |
 | G3 Mobile Functional | NOT_RUN | iPhone Safari test pending |
 | G4 Deployment Identity | NOT_RUN | no deployed runtime identity claimed |
 | G5 METEOR | NOT_RUN | attack suite pending |
@@ -25,7 +25,7 @@ Branch: `agent/gpt-web-ai-dogfood`
 - Prototype source: `AS_BUILT`
 - Locally exercised boundary paths: `AS_BUILT`
 - Live OpenAI path: `UNOBSERVED`
-- Knowledge path: `UNOBSERVED`
+- Live Knowledge path: `UNOBSERVED`
 - Deployed runtime: `UNOBSERVED`
 - Production availability: `FALSE`
 - Commercial availability: `FALSE`
@@ -48,21 +48,23 @@ Branch: `agent/gpt-web-ai-dogfood`
 ## Local verified evidence
 
 - Python compilation succeeds.
-- Five automated tests pass.
+- Seven automated tests pass.
 - Unknown slug fails explicitly.
 - Public config does not expose fixture Instructions/code word.
 - Missing API key fails closed with a bounded error.
 - Input/history limits are enforced.
 - Duplicate slug is rejected.
+- Successful provider-call request construction uses server API key/model/Instructions and `store=false`.
+- Knowledge binding uses the vector-store ID from server environment rather than end-user input.
 
-No live provider call was executed in the test environment because the OpenAI SDK was unavailable there and outbound package installation was blocked. The SDK import was moved inside the live call path so provider-independent boundaries remain testable.
+No live provider call was executed in the test environment because the OpenAI SDK was unavailable there and outbound package installation was blocked. The provider success paths were tested with a fake OpenAI client; this validates our request construction, not the external provider/runtime.
 
 ## Next execution order
 
 1. Run prototype on an environment with the OpenAI SDK + server-side `OPENAI_API_KEY` + `WEB_AI_MODEL`.
 2. Execute live deterministic fixture.
 3. Record provider behavior and upstream failure behavior.
-4. Add Limit Development Knowledge/vector-store binding.
+4. Add real Limit Development Knowledge/vector-store binding.
 5. Deploy on candidate Oracle/Ubuntu service.
 6. Capture Deployment Identity.
 7. Run iPhone Safari acceptance.
@@ -75,7 +77,7 @@ No live provider call was executed in the test environment because the OpenAI SD
 ## Known blockers
 
 - Live API execution requires a runtime with dependencies and `OPENAI_API_KEY` supplied outside Git.
-- Knowledge dogfood requires a vector store or equivalent retrieval binding.
+- Live Knowledge dogfood requires a vector store populated outside public Git state.
 - External mobile acceptance requires a deployed HTTPS route.
 
 No blocker above justifies widening v0 scope.
