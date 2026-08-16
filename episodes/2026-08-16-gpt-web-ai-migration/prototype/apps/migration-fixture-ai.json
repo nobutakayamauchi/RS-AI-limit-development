@@ -1,0 +1,19 @@
+{
+  "id": "migration-fixture-ai",
+  "slug": "migration-fixture-ai",
+  "display_name": "Migration Fixture AI",
+  "status": "dogfood",
+  "model_env": "WEB_AI_MODEL",
+  "instructions_file": "apps/migration-fixture-ai.instructions.md",
+  "knowledge": {
+    "enabled": false,
+    "vector_store_env": "MIGRATION_FIXTURE_VECTOR_STORE_ID"
+  },
+  "ui": {
+    "welcome": "Migration Kitの最小動作確認用AIです。"
+  },
+  "usage": {
+    "max_input_chars": 12000,
+    "max_history_messages": 12
+  }
+}
