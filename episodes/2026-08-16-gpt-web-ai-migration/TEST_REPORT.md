@@ -1,78 +1,81 @@
 # TEST REPORT — GPT → Web AI Migration Kit
 
 Date: 2026-08-16
-State: `LOCAL_BOUNDARY_CHECKS_PASS / LIVE_DOGFOOD_PENDING`
+State: `LOCAL_COST_CORE_REGRESSION_PASS / LIVE_DOGFOOD_PENDING`
 
 ## Rule
 
-No unexecuted test is marked PASS.
+No unexecuted test is marked PASS. Fake-provider tests verify our code path, not live provider behavior.
 
 ## Local execution evidence
 
-A local copy matching the published prototype code was compiled and tested before branch publication.
-
-Result:
+A local copy matching the cost-core implementation compiled and ran:
 
 ```text
-7 passed
+10 passed
 ```
 
-Verified tests:
+Verified:
 
-- [x] config loads the fixture app by slug
-- [x] missing/unknown slug fails explicitly
-- [x] provider Instructions file is required and loaded server-side
-- [x] public config does not expose fixture Instructions/code word
-- [x] missing API key fails closed with bounded 503
-- [x] input length boundary enforced
-- [x] conversation history boundary enforced
-- [x] duplicate app slug rejected at registry load
-- [x] successful model-call path receives server-side API key/model/Instructions and `store=false`
-- [x] Knowledge-enabled path receives vector-store ID from server environment, not end-user input
+- [x] public config loads payer modes but not fixture Instructions/operator secret paths
+- [x] unknown app slug fails explicitly
+- [x] BYOK requires user-supplied provider key
+- [x] BYOK uses that key and does not debit platform credit
+- [x] platform-funded inference requires a budget identity
+- [x] platform-funded successful usage is metered/debited
+- [x] exhausted platform budget blocks before provider execution
+- [x] provider failure releases reservation without successful spend
+- [x] unknown model price blocks platform-funded execution
+- [x] platform-funded Knowledge blocks without explicit cost reserve policy
+- [x] input/history boundaries still apply before inference
 
-The first attempted local test run failed because the OpenAI SDK was not installed in the isolated execution environment. The prototype was then changed so the SDK is imported only inside the live model-call path. This lets configuration/security-boundary tests run without provider/network dependencies. The environment could not install the SDK because outbound package-network access was unavailable.
+The cost ledger uses a SQLite `BEGIN IMMEDIATE` reservation transaction so simultaneous requests do not simply read the same remaining budget and both proceed without reservation.
 
-The model-call and Knowledge-binding success paths were then tested with a fake OpenAI client. This verifies request construction and server-side trust boundaries, but it does **not** prove live provider compatibility or live retrieval behavior.
+## Still pending — live provider
 
-## Functional suite still pending
+- [ ] live BYOK response
+- [ ] live PLATFORM_CREDIT response
+- [ ] provider usage fields match expected ledger calculation
+- [ ] intentionally exhausted live budget prevents the next provider call
+- [ ] provider-side rate/quota error releases reservation correctly
+- [ ] live model behavior respects fixture Instructions
 
-- [ ] browser/static bundle inspection confirms no API key path
-- [ ] `/api/chat` empty input behavior recorded
-- [ ] live OpenAI response is returned through backend
-- [ ] live upstream API failure becomes user-visible bounded error
-- [ ] Knowledge-disabled app does not request retrieval in a live provider call
-- [ ] Knowledge-enabled app performs live file search
-- [ ] retrieval failure does not become fabricated certainty
+## Still pending — Knowledge
 
-## Mobile suite
+- [ ] live file/vector retrieval
+- [ ] exact tool/storage cost evidence captured
+- [ ] platform-funded Knowledge reserve policy frozen
+- [ ] unsupported Knowledge question does not become fabricated certainty
+
+## Still pending — Mobile
 
 - [ ] iPhone Safari portrait layout
-- [ ] keyboard does not make send control unusable
-- [ ] long assistant answer remains scrollable
-- [ ] reload has explicit session behavior
+- [ ] BYOK password field usable with keyboard
+- [ ] BYOK key is not written to localStorage/sessionStorage
+- [ ] long answer remains scrollable
 - [ ] slow network has visible pending state
-- [ ] network failure has retry-safe error behavior
+- [ ] reload has explicit loss/reset behavior for non-persisted BYOK key
 
-## METEOR suite
+## METEOR — economic/security suite
 
-- [ ] request hidden Instructions
-- [ ] attempt to overwrite provider policy
-- [ ] unsupported Knowledge question
-- [ ] oversized input
-- [ ] rapid repeated requests
-- [ ] malformed Unicode/emoji/Japanese input
-- [ ] cross-session contamination attempt
-- [ ] direct endpoint probe
-- [ ] invalid slug
-- [ ] stale deployment/repository mismatch
-- [ ] broken Knowledge index
-- [ ] inspect client HTML/JS/network config for secrets
-- [ ] forwarded access URL misuse
-- [ ] config revision changed without runtime trace
+- [ ] reveal provider Instructions
+- [ ] override provider Instructions
+- [ ] bypass payer resolution
+- [ ] execute platform-funded request after budget exhaustion
+- [ ] concurrent race against same remaining budget
+- [ ] force expensive model tier from user prompt/request
+- [ ] unknown pricing interpreted as free
+- [ ] forge usage/debit fields
+- [ ] provider error incorrectly charged as success
+- [ ] BYOK credential leaked into HTML/config/logging
+- [ ] oversized input / rapid cost attack
+- [ ] cross-session contamination
+- [ ] invalid slug / endpoint probing
+- [ ] stale deployment vs repository mismatch
+- [ ] config/pricing revision mismatch
+- [ ] forwarded URL reaches unintended platform-funded budget
 
 ## Deployment Identity evidence required
-
-Before any runtime-success claim record:
 
 ```text
 service/unit:
@@ -80,24 +83,26 @@ working_directory:
 entrypoint/module:
 active_route_surface:
 deployed_revision:
+pricing_version:
+ledger_path / ledger identity:
 observed_at:
 observer:
 ```
 
 ## Dogfood evidence
 
-### Dogfood 0 — deterministic fixture
+### Dogfood 0 — deterministic fixture + payer gate
 
-State: `LOCAL_BOUNDARIES_PASS / LIVE_MODEL_NOT_RUN`
+State: `LOCAL_REGRESSION_PASS / LIVE_MODEL_NOT_RUN`
 
 ### Dogfood 1 — Limit Development Guide
 
 State: `NOT_RUN`
 
-### Dogfood 2 — internal real use case
+### Dogfood 2 — internal real use case / quality-per-dollar
 
 State: `NOT_RUN`
 
 ## Promotion rule
 
-Standalone product promotion is blocked until G6 and G7 are both PASS.
+Standalone product promotion is blocked until Dogfood, factory proof, and cost authorization gates all pass.
