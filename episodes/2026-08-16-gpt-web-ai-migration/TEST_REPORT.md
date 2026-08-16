@@ -1,24 +1,42 @@
 # TEST REPORT — GPT → Web AI Migration Kit
 
 Date: 2026-08-16
-State: `TEST_PLAN_CREATED / EXECUTION_PENDING`
+State: `LOCAL_BOUNDARY_CHECKS_PASS / LIVE_DOGFOOD_PENDING`
 
 ## Rule
 
 No unexecuted test is marked PASS.
 
-## Functional suite
+## Local execution evidence
 
-- [ ] config loads one app by slug
-- [ ] missing slug fails explicitly
-- [ ] provider Instructions are loaded server-side
-- [ ] browser receives no API key
-- [ ] `/api/chat` rejects empty input
-- [ ] input length boundary enforced
-- [ ] conversation history boundary enforced
+A local copy matching the published prototype code was compiled and tested before branch publication.
+
+Result:
+
+```text
+5 passed
+```
+
+Verified tests:
+
+- [x] config loads the fixture app by slug
+- [x] missing/unknown slug fails explicitly
+- [x] provider Instructions file is required and loaded server-side
+- [x] public config does not expose fixture Instructions/code word
+- [x] missing API key fails closed with bounded 503
+- [x] input length boundary enforced
+- [x] conversation history boundary enforced
+- [x] duplicate app slug rejected at registry load
+
+The first attempted local test run failed because the OpenAI SDK was not installed in the isolated execution environment. The prototype was then changed so the SDK is imported only inside the live model-call path. This lets configuration/security-boundary tests run without provider/network dependencies. The environment could not install the SDK because outbound package-network access was unavailable, so no live API assertion is claimed.
+
+## Functional suite still pending
+
+- [ ] browser/static bundle inspection confirms no API key path
+- [ ] `/api/chat` empty input behavior recorded
 - [ ] OpenAI response is returned through backend
 - [ ] upstream API failure becomes user-visible bounded error
-- [ ] Knowledge-disabled app does not request retrieval
+- [ ] Knowledge-disabled app does not request retrieval in a live provider call
 - [ ] Knowledge-enabled app binds configured vector store
 - [ ] retrieval failure does not become fabricated certainty
 
@@ -66,7 +84,7 @@ observer:
 
 ### Dogfood 0 — deterministic fixture
 
-State: `NOT_RUN`
+State: `LOCAL_BOUNDARIES_PASS / LIVE_MODEL_NOT_RUN`
 
 ### Dogfood 1 — Limit Development Guide
 
