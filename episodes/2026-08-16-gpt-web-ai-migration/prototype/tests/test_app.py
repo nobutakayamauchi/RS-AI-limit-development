@@ -65,3 +65,61 @@ def test_duplicate_slug_rejected(monkeypatch, tmp_path):
     sys.modules.pop("app", None)
     with pytest.raises(ValueError, match="duplicate slug"):
         importlib.import_module("app")
+
+
+def install_fake_openai(monkeypatch, captured, text="fixture response"):
+    import types
+
+    class FakeResponses:
+        def create(self, **kwargs):
+            captured.update(kwargs)
+            return types.SimpleNamespace(output_text=text)
+
+    class FakeOpenAI:
+        def __init__(self, api_key):
+            captured["api_key_received"] = api_key
+            self.responses = FakeResponses()
+
+    monkeypatch.setitem(sys.modules, "openai", types.SimpleNamespace(OpenAI=FakeOpenAI))
+
+
+def test_model_call_path_uses_server_config(monkeypatch):
+    module = load_module(monkeypatch)
+    captured = {}
+    install_fake_openai(monkeypatch, captured)
+    monkeypatch.setenv("OPENAI_API_KEY", "server-secret")
+    monkeypatch.setenv("WEB_AI_MODEL", "server-model")
+    client = TestClient(module.app)
+    res = client.post("/api/chat", json={
+        "slug": "migration-fixture-ai",
+        "message": "hello",
+        "history": [{"role": "assistant", "content": "prior"}],
+    })
+    assert res.status_code == 200
+    assert res.json()["text"] == "fixture response"
+    assert captured["api_key_received"] == "server-secret"
+    assert captured["model"] == "server-model"
+    assert "BRIDGE-DOGFOOD-001" in captured["instructions"]
+    assert captured["store"] is False
+    assert captured["input"][-1] == {"role": "user", "content": "hello"}
+    assert "tools" not in captured
+
+
+def test_knowledge_binding_comes_from_server_env(monkeypatch):
+    module = load_module(monkeypatch)
+    captured = {}
+    install_fake_openai(monkeypatch, captured)
+    monkeypatch.setenv("OPENAI_API_KEY", "server-secret")
+    monkeypatch.setenv("WEB_AI_MODEL", "server-model")
+    monkeypatch.setenv("MIGRATION_FIXTURE_VECTOR_STORE_ID", "vs_server_only")
+    module.registry.apps["migration-fixture-ai"]["knowledge"]["enabled"] = True
+    client = TestClient(module.app)
+    res = client.post("/api/chat", json={
+        "slug": "migration-fixture-ai",
+        "message": "knowledge question",
+        "history": [],
+    })
+    assert res.status_code == 200
+    assert captured["tools"] == [
+        {"type": "file_search", "vector_store_ids": ["vs_server_only"]}
+    ]
