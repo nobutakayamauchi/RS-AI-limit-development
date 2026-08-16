@@ -8,6 +8,17 @@
     "enabled": false,
     "vector_store_env": "MIGRATION_FIXTURE_VECTOR_STORE_ID"
   },
+  "access": {
+    "mode": "FREE",
+    "price": null,
+    "entitlement": "PUBLIC"
+  },
+  "included_allowance": {
+    "enabled": false,
+    "payer": "PLATFORM_CREDIT",
+    "limit_type": "REQUESTS",
+    "limit": 0
+  },
   "billing": {
     "allowed_payer_modes": ["BYOK", "PLATFORM_CREDIT"],
     "default_payer_mode": "BYOK",
@@ -16,6 +27,10 @@
       "budget_id_env": "MIGRATION_FIXTURE_BUDGET_ID",
       "hard_limit_usd_micros": 500000
     }
+  },
+  "delivery": {
+    "mode": "HOSTED_ONLY",
+    "portable_license_id": null
   },
   "routing": {
     "policy": "cost_aware_v0",
